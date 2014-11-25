@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+<title>HFL 2014-15</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1>Players</h1>
+				<p>All the players in the game:</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="container">
+		<div class="row">
+			<div class="col-sm-6 col-md-3" style="padding-bottom: 15px">
+				<div class="thumbnail">
+					<div class="caption">
+						<h3 th:text="${player.firstName}">first name</h3>
+						<p th:text="${player.lastName}">last name</p>
+						<p th:text="${player.position}">position</p>
+						<p th:text="${'Plays for ' + player.club}">club</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

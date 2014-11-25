@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<title>Team Selection</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1 th:text="${team.name}">Team Name</h1>
+				<p>Make your team selection:</p>
+			</div>
+		</div>
+	</section>
+	<section>
+		<form th:action="@{/selection/submit-team}" th:object="${selection}"
+			method="post">
+			<div class="form-group">
+				<label>Player 1:</label> <select th:field="*{player1_id}">
+					<option th:each="player : ${teamPlayers}" th:value="${player.id}"
+						th:text="${player.firstName}">Wireframe</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Player 2:</label> <select th:field="*{player2_id}">
+					<option th:each="player : ${teamPlayers}" th:value="${player.id}"
+						th:text="${player.firstName}">Wireframe</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label>Player 3:</label> <select th:field="*{player3_id}">
+					<option th:each="player : ${teamPlayers}" th:value="${player.id}"
+						th:text="${player.firstName}">Wireframe</option>
+				</select>
+			</div>
+			<input type="submit" id="btnAdd" class="btn btn-primary"
+				value="Submit" />
+		</form>
+
+	</section>
+</body>
+</html>
+		<!-- 			<table class="table table-striped"> -->
+		<!-- 				<tr> -->
+		<!-- 					<th>Player ID</th> -->
+		<!-- 					<th>First Name</th> -->
+		<!-- 					<th>Second Name</th> -->
+		<!-- 					<th>Position</th> -->
+		<!-- 					<th>Gameweek Points</th> -->
+		<!-- 				</tr> -->
+		<!-- 				<tr th:each="player : ${TeamPlayers}"> -->
+		<!-- 					<td th:text="${player.id}">ID</td> -->
+		<!-- 					<td th:text="${player.firstName}">first name</td> -->
+		<!-- 					<td th:text="${player.lastName}">last name</td> -->
+		<!-- 					<td th:text="${player.position}">position</td> -->
+		<!-- 					<td th:text="${player.gameweekPoints}">points</td> -->
+		<!-- 				</tr> -->
+		<!-- 			</table> -->

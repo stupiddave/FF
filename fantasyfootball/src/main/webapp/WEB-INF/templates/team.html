@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<title>Products</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1>Team 1</h1>
+				<p>All the players in your team:</p>
+			</div>
+		</div>
+	</section>
+	<section>
+		<table class="table table-striped">
+			<tr>
+				<th>Player ID</th>
+				<th>First Name</th>
+				<th>Second Name</th>
+				<th>Position</th>
+				<th>Gameweek Points</th>
+			</tr>
+			<tr th:each="player : ${TeamPlayers}">
+				<td th:text="${player.id}">ID</td>
+				<td th:text="${player.firstName}">first name</td>
+				<td th:text="${player.lastName}">last name</td>
+				<td th:text="${player.position}">position</td>
+				<td th:text="${player.gameweekPoints}">points</td>
+			</tr>
+		</table>
+	</section>
+</body>
+</html>
