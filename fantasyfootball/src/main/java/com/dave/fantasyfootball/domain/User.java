@@ -1,13 +1,23 @@
 package com.dave.fantasyfootball.domain;
 
-public class User {
+import java.io.Serializable;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope(value="session", proxyMode=ScopedProxyMode.TARGET_CLASS)
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private int teamId;
+	private String userType;
 
 	public String getUsername() {
 		return username;
@@ -55,5 +65,13 @@ public class User {
 
 	public void setTeamId(int teamId) {
 		this.teamId = teamId;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
 }

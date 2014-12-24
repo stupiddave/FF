@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<title>Welcome</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1>HFL 2014-15</h1>
+				<p th:text="'You are logged in as: ' + ${user.firstName}"></p>
+			</div>
+		</div>
+		<div>
+			<a th:href="@{/addTeam}">Add Team</a>
+		</div>
+		<div>
+			<a th:href="@{/addUser}">Add User</a>
+		</div>
+		<div>
+			<a th:href="@{/updateTeam/1}">Update Team 1</a>
+		</div>
+		<div>
+			<a th:href="@{/submitLineup}">Submit Lineup</a>
+		</div>
+		<div>
+			<p th:text="'Current gameweek: ' + ${currentGameweek}"></p>
+			<a th:href="@{/admin/incrementGameweek}">Increment Gameweek</a>
+			<a th:href="@{/admin/decrementGameweek}">Decrement Gameweek</a>
+		</div>
+		<div>
+			<form th:action="@{/logout}" method="post">
+				<div class="col-lg-10">
+					<input type="submit" id="logout" class="btn btn-primary"
+						value="Logout" />
+				</div>
+			</form>
+		</div>
+	</section>
+</body>
+</html>

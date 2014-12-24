@@ -3,8 +3,6 @@ package com.dave.fantasyfootball.domain;
 import org.json.JSONArray;
 import org.springframework.stereotype.Component;
 
-import com.dave.fantasyfootball.utils.Position;
-
 @Component
 public class Player {
 
@@ -13,10 +11,9 @@ public class Player {
 	private String lastName;
 	private String webName;
 	private String club;
-	private Position position;
+	private String position;
 	private int gameweekPoints;
 	private JSONArray gameweekEvent;
-	private int teamId;
 
 	public int getId() {
 		return id;
@@ -58,11 +55,11 @@ public class Player {
 		this.club = club;
 	}
 
-	public Position getPosition() {
+	public String getPosition() {
 		return position;
 	}
 
-	public void setPosition(Position position) {
+	public void setPosition(String position) {
 		this.position = position;
 	}
 	
@@ -88,11 +85,11 @@ public class Player {
 		this.gameweekEvent = gameweekEvent;
 	}
 
-	public int getTeamId() {
-		return teamId;
-	}
-
-	public void setTeamId(int teamId) {
-		this.teamId = teamId;
-	}
+//	public int getTeamId() {
+//		return teamId;
+//	}
+//
+//	public void setTeamId(int teamId) {
+//		this.teamId = teamId;
+//	}
 }

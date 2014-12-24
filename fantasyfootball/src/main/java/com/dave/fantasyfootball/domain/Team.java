@@ -1,11 +1,14 @@
 package com.dave.fantasyfootball.domain;
 
+import java.util.List;
+
 
 public class Team {
 
 	private int id;
 	private String name;
 	private Selection selection;
+	private List<Player> squad;
 	private int totalPoints;
 
 	public Selection getSelection() {
@@ -38,6 +41,14 @@ public class Team {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public List<Player> getSquad() {
+		return squad;
+	}
+
+	public void setSquad(List<Player> squad2) {
+		this.squad = squad2;
 	}
 
 }

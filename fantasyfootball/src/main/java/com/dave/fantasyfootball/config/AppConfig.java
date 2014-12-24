@@ -1,8 +1,13 @@
 package com.dave.fantasyfootball.config;
 
+import javax.sql.DataSource;
+
+import org.apache.derby.jdbc.ClientDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -10,20 +15,22 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import com.dave.fantasyfootball.controller.TeamController;
-import com.dave.fantasyfootball.repository.SelectionRepository;
-import com.dave.fantasyfootball.repository.SelectionRepositoryImpl;
-import com.dave.fantasyfootball.service.PropertiesService;
-import com.dave.fantasyfootball.service.PropertiesServiceImpl;
-import com.dave.fantasyfootball.service.SelectionService;
-import com.dave.fantasyfootball.service.SelectionServiceImpl;
-import com.dave.fantasyfootball.service.TeamService;
-import com.dave.fantasyfootball.service.TeamServiceImpl;
-
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.dave.fantasyfootball" })
 @Configuration
-public class appConfig extends WebMvcConfigurerAdapter {
+public class AppConfig extends WebMvcConfigurerAdapter {
+
+//	@Autowired
+//	public void configureGlobal(AuthenticationManagerBuilder auth)
+//			throws Exception {
+//		auth.inMemoryAuthentication().withUser("user1").password("password")
+//				.roles("USER");
+//	}
+//
+//	protected void configure(HttpSecurity http) throws Exception {
+//		http.csrf().disable()
+//		.antMatcher("/*");
+//	}
 
 	@Override
 	public void configureDefaultServletHandling(
@@ -55,32 +62,23 @@ public class appConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public TeamService getTeamService() {
-		TeamService teamService = new TeamServiceImpl();
-		return teamService;
-	}
-	
-	@Bean
-	public PropertiesService getPropertiesService() {
-		PropertiesService propetiesService = new PropertiesServiceImpl();
-		return propetiesService;
-	}
-	
-	@Bean SelectionRepository getSelectionRepository() {
-		SelectionRepository selectionRepository = new SelectionRepositoryImpl();
-		return selectionRepository;
-	}
-	
-	@Bean 
-	SelectionService getSelectionService() {
-		SelectionService selectionService = new SelectionServiceImpl();
-//		selectionService.
-		return selectionService;
+	NamedParameterJdbcTemplate getJdbcTemplate() {
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(
+				getDataSource());
+		return jdbcTemplate;
 	}
 
-//	@Bean
-//	public TeamController getTeamController() {
-//		TeamController teamController = new TeamController();
-//		return teamController;
-//	}
+	@Bean
+	ClientDriver getDriver() {
+		ClientDriver driver = new ClientDriver();
+		return driver;
+	}
+
+	@Bean
+	DataSource getDataSource() {
+		SimpleDriverDataSource dataSource = new SimpleDriverDataSource(
+				getDriver(), "jdbc:derby://localhost:1527/FF_DB;create=true");
+		System.out.println(dataSource.getUrl());
+		return dataSource;
+	}
 }

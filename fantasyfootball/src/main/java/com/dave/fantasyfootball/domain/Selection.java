@@ -1,43 +1,16 @@
 package com.dave.fantasyfootball.domain;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
-
-import com.dave.fantasyfootball.utils.SquadListing;
 
 @Component
 public class Selection {
 
-	private int teamId;
 	private int selectionGameweek;
-	private Map<SquadListing, Integer> squad;
-	private Player captain;
-	private Player viceCaptain;
-
-	public Map<SquadListing, Integer> getSquad() {
-		return squad;
-	}
-
-	public void setSquad(Map<SquadListing, Integer> squad) {
-		this.squad = squad;
-	}
-
-	public Player getCaptain() {
-		return captain;
-	}
-
-	public void setCaptain(Player captain) {
-		this.captain = captain;
-	}
-
-	public Player getViceCaptain() {
-		return viceCaptain;
-	}
-
-	public void setViceCaptain(Player viceCaptain) {
-		this.viceCaptain = viceCaptain;
-	}
+	private ArrayList<String> lineup;
+	private int captainId;
+	private int viceCaptainId;
 
 	public int getSelectionGameweek() {
 		return selectionGameweek;
@@ -47,11 +20,27 @@ public class Selection {
 		this.selectionGameweek = selectionGameweek;
 	}
 
-	public int getTeamId() {
-		return teamId;
+	public ArrayList<String> getLineup() {
+		return lineup;
 	}
 
-	public void setTeamId(int teamId) {
-		this.teamId = teamId;
+	public void setLineup(ArrayList<String> lineup) {
+		this.lineup = lineup;
+	}
+
+	public int getCaptainId() {
+		return captainId;
+	}
+
+	public void setCaptainId(int captainId) {
+		this.captainId = captainId;
+	}
+
+	public int getViceCaptainId() {
+		return viceCaptainId;
+	}
+
+	public void setViceCaptainId(int viceCaptainId) {
+		this.viceCaptainId = viceCaptainId;
 	}
 }

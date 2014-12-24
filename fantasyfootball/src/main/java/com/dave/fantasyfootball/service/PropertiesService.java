@@ -2,5 +2,7 @@ package com.dave.fantasyfootball.service;
 
 public interface PropertiesService {
 
-	public int getSelectionGameweek();
+	public int incrementGameweek();
+	public int decrementGameweek();
+	public int getCurrentGameweek();
 }
