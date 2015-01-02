@@ -7,7 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 
 import com.dave.fantasyfootball.domain.Player;
-import com.dave.fantasyfootball.domain.TeamForm;
+import com.dave.fantasyfootball.form.TeamForm;
 
 public interface PlayerService {
 

@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
-import com.dave.fantasyfootball.domain.TeamForm;
 import com.dave.fantasyfootball.domain.User;
+import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.service.PropertiesService;
 import com.dave.fantasyfootball.service.TeamService;

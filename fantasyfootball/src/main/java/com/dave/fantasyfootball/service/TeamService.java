@@ -7,7 +7,7 @@ import org.json.JSONException;
 
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
-import com.dave.fantasyfootball.domain.TeamForm;
+import com.dave.fantasyfootball.form.TeamForm;
 
 public interface TeamService {
 

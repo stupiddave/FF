@@ -14,6 +14,7 @@ public class Player {
 	private String position;
 	private int gameweekPoints;
 	private JSONArray gameweekEvent;
+	private String imageFile;
 
 	public int getId() {
 		return id;
@@ -83,6 +84,14 @@ public class Player {
 
 	public void setGameweekEvent(JSONArray gameweekEvent) {
 		this.gameweekEvent = gameweekEvent;
+	}
+
+	public String getImageFile() {
+		return imageFile;
+	}
+
+	public void setImageFile(String imageFile) {
+		this.imageFile = imageFile;
 	}
 
 //	public int getTeamId() {

@@ -1,4 +1,4 @@
-package com.dave.fantasyfootball.domain;
+package com.dave.fantasyfootball.form;
 
 import java.util.Arrays;
 import java.util.List;

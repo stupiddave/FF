@@ -9,8 +9,8 @@ import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dave.fantasyfootball.domain.TeamForm;
 import com.dave.fantasyfootball.domain.Player;
+import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.repository.PlayerRepository;
 
 @Service

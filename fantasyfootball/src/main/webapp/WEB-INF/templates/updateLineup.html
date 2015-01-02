@@ -13,14 +13,27 @@
 			<div class="container">
 				<h1>Lineup</h1>
 				<p th:text="${team.name}">Team Name</p>
-<!-- 				<p th:text="'Next gameweek: ' + ${selection.selectionGameweek}">Gameweek</p> -->
+				<!-- 				<p th:text="'Next gameweek: ' + ${selection.selectionGameweek}">Gameweek</p> -->
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="container">
+			<div th:each="player : ${team.squad}">
+				<img width="92" height="77"
+					th:src="'http://cdn.ismfg.net/static/plfpl/img/shirts/photos/' + ${player.imageFile}"
+					th:title="${player.webName} + ' || ' + ${player.club} + ' || ' + ${player.position}"
+					draggable="true"></img>
 			</div>
 		</div>
 	</section>
 	<section>
 		<div class="container">
-			<form th:action="@{/updateLineup}" th:object="${selection}" method="post">
-			<input th:type="hidden" th:field="*{selectionGameweek}" th:value="${selection.selectionGameweek}"></input>
+			<form th:action="@{/updateLineup}" th:object="${selection}"
+				method="post">
+				<input th:type="hidden" th:field="*{selectionGameweek}"
+					th:value="${selection.selectionGameweek}"></input>
 				<div class="form-group">
 					<div class="row">
 						<label class="control-label col-lg-2 col-lg-2" for="playerId1">Player
@@ -250,7 +263,8 @@
 				</div>
 				<div class="form-group">
 					<div class="row">
-						<label class="control-label col-lg-2 col-lg-2" for="viceCaptain">Vice Captain:</label>
+						<label class="control-label col-lg-2 col-lg-2" for="viceCaptain">Vice
+							Captain:</label>
 						<div class="col-lg-10">
 							<select th:field="*{viceCaptainId}" id="viceCaptain">
 								<option th:each="player : ${team.squad}" th:value="${player.id}"

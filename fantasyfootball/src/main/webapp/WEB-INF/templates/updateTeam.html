@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<title>Team Selection</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1>Add Team</h1>
+				<p>Add a team to the database</p>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="container">
+			<form th:action="@{/updateTeam}" th:object="${teamForm}"
+				method="post">
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="teamId">Team
+						ID:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{teamId}" class="form:input-large" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="teamId">Team
+						Name:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{teamName}" class="form:input-large" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId1">Player
+						1:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[0]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId2">Player
+						2:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[1]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId3">Player
+						3:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[2]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId4">Player
+						4:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[3]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId5">Player
+						5:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[4]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId6">Player
+						6:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[5]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId7">Player
+						7:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[6]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId8">Player
+						8:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[7]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId9">Player
+						9:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[8]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId10">Player
+						10:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[9]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId11">Player
+						11:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[10]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId12">Player
+						12:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[11]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId13">Player
+						13:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[12]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId14">Player
+						14:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[13]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId15">Player
+						15:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[14]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId16">Player
+						16:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[15]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId17">Player
+						17:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[16]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="playerId18">Player
+						18:</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{playerIds[17]}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2 col-lg-2" for="teamPoints">Team
+						Points (Optional)</label>
+					<div class="col-lg-10">
+						<input type="text" th:field="*{teamPoints}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-10">
+						<button type="submit" class="btn btn-primary" th:text="Update">Update!</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+</body>
+</html>

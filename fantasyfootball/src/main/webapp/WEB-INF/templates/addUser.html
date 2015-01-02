@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<title>Team Selection</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1>Add User</h1>
+				<p>Add a user to the database</p>
+			</div>
+		</div>
+	</section>
+	<section>
+		<form th:action="@{/addUser}" th:object="${newUser}" method="post">
+			<div class="form-group">
+				<label class="control-label col-lg-2 col-lg-2" for="username">Username:</label>
+				<div class="col-lg-10">
+					<input type="text" th:field="*{username}" class="form:input-large" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-lg-2 col-lg-2" for="password">Password:</label>
+				<div class="col-lg-10">
+					<input type="password" th:field="*{password}"
+						class="form:input-large" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-lg-2 col-lg-2" for="firstName">First
+					Name:</label>
+				<div class="col-lg-10">
+					<input type="text" th:field="*{firstName}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-lg-2 col-lg-2" for="lastName">Last
+					Name:</label>
+				<div class="col-lg-10">
+					<input type="text" th:field="*{lastName}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-lg-2 col-lg-2" for="email">Email
+					Address:</label>
+				<div class="col-lg-10">
+					<input type="email" th:field="*{email}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-lg-2 col-lg-2" for="teamId">Team
+					ID:</label>
+				<div class="col-lg-10">
+					<input type="text" th:field="*{teamId}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-lg-2 col-lg-2" for="userType">Access:</label>
+				<div class="col-lg-10">
+					<select>
+						<option th:value="'USER'" th:text="'User'">User</option>
+						<option th:value="'ADMIN'" th:text="'Admin'">Admin</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-lg-10">
+				<button type="submit" id="addUser" class="btn btn-primary"
+					th:text="Submit">Big Button</button>
+			</div>
+		</form>
+
+	</section>
+</body>
+</html>

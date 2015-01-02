@@ -95,6 +95,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 		player.setGameweekPoints(playerJson.getInt("event_total"));
 		player.setGameweekEvent(playerJson.getJSONArray("event_explain"));
 		player.setClub(playerJson.getString("team_name"));
+		player.setImageFile(playerJson.getString("photo"));
 		return player;
 	}
 

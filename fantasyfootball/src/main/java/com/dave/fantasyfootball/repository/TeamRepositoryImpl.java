@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
-import com.dave.fantasyfootball.domain.TeamForm;
+import com.dave.fantasyfootball.form.TeamForm;
 
 @Repository
 public class TeamRepositoryImpl implements TeamRepository {
