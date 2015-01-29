@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
+import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.service.PropertiesService;
@@ -98,9 +99,9 @@ public class TeamController {
 		System.out.println("Current user is: " + user.getFirstName());
 		Team team = teamService.getTeamById(user.getTeamId());
 		model.addAttribute("team", team);
-		Selection selection = new Selection();
-		selection.setSelectionGameweek(propertiesService.getCurrentGameweek());
-		model.addAttribute("selection", new Selection());
+		SelectionForm selectionForm = new SelectionForm();
+		selectionForm.setSelectionGameweek(propertiesService.getCurrentGameweek());
+		model.addAttribute("selection", selectionForm);
 		return "updateLineup";
 	}
 
@@ -122,4 +123,5 @@ public class TeamController {
 		model.addAttribute("user", user);
 		return "team";
 	}
+	
 }

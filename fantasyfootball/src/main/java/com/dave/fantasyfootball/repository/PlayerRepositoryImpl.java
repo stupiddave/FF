@@ -8,6 +8,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 				playersByPosition.add(player);
 			}
 		}
-		return null;
+		return playersByPosition;
 	}
 
 	@Override
@@ -84,18 +85,28 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	@Override
 	public Player getPlayerById(int id) throws JSONException, IOException {
 		Player player = new Player();
+		int minutesPlayed;
 
 		JSONObject playerJson = retrievePlayerJson(id);
 
+		JSONArray gameweekEvent = playerJson.getJSONArray("event_explain");
+		for (int i = 0; i < gameweekEvent.length(); i++) {
+			JSONArray eventArray = gameweekEvent.getJSONArray(i);
+			if (eventArray.getString(0) == "Minutes played") {
+				minutesPlayed = eventArray.getInt(2);
+			}
+		}
+		
 		player.setId(id);
 		player.setFirstName(playerJson.getString("first_name"));
 		player.setLastName(playerJson.getString("second_name"));
 		player.setWebName(playerJson.getString("web_name"));
 		player.setPosition(playerJson.getString("type_name"));
 		player.setGameweekPoints(playerJson.getInt("event_total"));
-		player.setGameweekEvent(playerJson.getJSONArray("event_explain"));
+		player.setGameweekEvent(gameweekEvent);
 		player.setClub(playerJson.getString("team_name"));
 		player.setImageFile(playerJson.getString("photo"));
+		player.setMinutesPlayed();
 		return player;
 	}
 
@@ -118,7 +129,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 									+ id).openStream()));
 				} catch (IOException e2) {
 					e2.printStackTrace();
-					throw new IOException();
+					throw new IOException("Could not connest to Fantasy Premier League whilst trying to retrieve player " + id);
 				}
 			}
 		}

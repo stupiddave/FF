@@ -1,7 +1,10 @@
-package com.dave.fantasyfootball.service;
+package com.dave.fantasyfootball.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.dave.fantasyfootball.service.PropertiesRepository;
+import com.dave.fantasyfootball.service.PropertiesService;
 
 @Service
 public class PropertiesServiceImpl implements PropertiesService {

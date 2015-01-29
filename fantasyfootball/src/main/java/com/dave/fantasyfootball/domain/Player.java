@@ -1,6 +1,7 @@
 package com.dave.fantasyfootball.domain;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,7 @@ public class Player {
 	private int gameweekPoints;
 	private JSONArray gameweekEvent;
 	private String imageFile;
+	private int minutesPlayed;
 
 	public int getId() {
 		return id;
@@ -63,7 +65,7 @@ public class Player {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Player [id=" + id + ", webName=" + webName + ", club=" + club
@@ -94,11 +96,18 @@ public class Player {
 		this.imageFile = imageFile;
 	}
 
-//	public int getTeamId() {
-//		return teamId;
-//	}
-//
-//	public void setTeamId(int teamId) {
-//		this.teamId = teamId;
-//	}
+	public int getMinutesPlayed() {
+		return minutesPlayed;
+	}
+
+	public void setMinutesPlayed() throws JSONException {
+		for (int i = 0; i < gameweekEvent.length(); i++) {
+			
+			if ("Minutes played".equals(gameweekEvent.getJSONArray(i).getString(0))) {
+				this.minutesPlayed = gameweekEvent.getJSONArray(i).getInt(1);
+			} else {
+				this.minutesPlayed = 0;
+			}
+		}
+	}
 }

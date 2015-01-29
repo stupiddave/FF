@@ -1,29 +1,35 @@
 package com.dave.fantasyfootball.repository;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.form.TeamForm;
+import com.dave.fantasyfootball.service.PlayerService;
 
 @Repository
 public class TeamRepositoryImpl implements TeamRepository {
 
 	@Autowired
-	public TeamRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate) {
+	public TeamRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate, PlayerService playerService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.playerService = playerService;
 	}
 
 	NamedParameterJdbcTemplate jdbcTemplate;
+	PlayerService playerService;
 	List<Team> teams = new ArrayList<Team>();
 
 	RowMapper<Team> teamRowMapper = new RowMapper<Team>() {
@@ -55,25 +61,31 @@ public class TeamRepositoryImpl implements TeamRepository {
 			selection.setSelectionGameweek(rs.getInt("selection_gameweek"));
 			selection.setCaptainId(rs.getInt("captain_id"));
 			selection.setViceCaptainId(rs.getInt("vice_captain_id"));
-			ArrayList<String> lineup = new ArrayList<String>();
-			lineup.add(rs.getString("player1_id"));
-			lineup.add(rs.getString("player2_id"));
-			lineup.add(rs.getString("player3_id"));
-			lineup.add(rs.getString("player4_id"));
-			lineup.add(rs.getString("player5_id"));
-			lineup.add(rs.getString("player6_id"));
-			lineup.add(rs.getString("player7_id"));
-			lineup.add(rs.getString("player8_id"));
-			lineup.add(rs.getString("player9_id"));
-			lineup.add(rs.getString("player10_id"));
-			lineup.add(rs.getString("player11_id"));
-			lineup.add(rs.getString("player12_id"));
-			lineup.add(rs.getString("player13_id"));
-			lineup.add(rs.getString("player14_id"));
-			lineup.add(rs.getString("player15_id"));
-			lineup.add(rs.getString("player16_id"));
-			lineup.add(rs.getString("player17_id"));
-			lineup.add(rs.getString("player18_id"));
+			
+			
+			List<Player> lineup = new ArrayList<Player>();
+			try {
+			lineup.add(playerService.getPlayerById(rs.getInt("player1_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player2_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player3_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player4_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player5_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player6_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player7_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player8_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player9_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player10_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player11_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player12_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player13_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player14_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player15_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player16_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player17_id")));
+			lineup.add(playerService.getPlayerById(rs.getInt("player18_id")));
+			} catch (JSONException | IOException e) {
+				e.printStackTrace();
+			}
 			selection.setLineup(lineup);
 			
 			return selection;

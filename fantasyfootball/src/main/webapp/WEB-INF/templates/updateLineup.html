@@ -6,6 +6,29 @@
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 <title>Lineup</title>
+<style>
+#div1, #div2 {
+	width: 112px;
+	height: 97px;
+	padding: 10px;
+	border: 1px solid #aaaaaa;
+}
+</style>
+<script>
+	function allowDrop(ev) {
+		ev.preventDefault();
+	}
+
+	function drag(ev) {
+		ev.dataTransfer.setData("text", ev.target.id);
+	}
+
+	function drop(ev) {
+		ev.preventDefault();
+		var data = ev.dataTransfer.getData("text");
+		ev.target.appendChild(document.getElementById(data));
+	}
+</script>
 </head>
 <body>
 	<section>
@@ -17,17 +40,26 @@
 			</div>
 		</div>
 	</section>
-
 	<section>
 		<div class="container">
-			<div th:each="player : ${team.squad}">
-				<img width="92" height="77"
-					th:src="'http://cdn.ismfg.net/static/plfpl/img/shirts/photos/' + ${player.imageFile}"
-					th:title="${player.webName} + ' || ' + ${player.club} + ' || ' + ${player.position}"
-					draggable="true"></img>
+			<div class="row">
+				<div class="col-lg-6">
+					<h3>Squad</h3>
+					<span th:each="player : ${team.squad}"> <img width="92"
+						height="77"
+						th:src="'http://cdn.ismfg.net/static/plfpl/img/shirts/photos/' + ${player.imageFile}"
+						th:title="${player.webName} + ' || ' + ${player.club} + ' || ' + ${player.position}"
+						draggable="true" ondragstart="drag(event)" th:id="${player.id}"></img>
+					</span>
+				</div>
 			</div>
 		</div>
 	</section>
+	<div class="container">
+		<div th:each="squadPlace : ${selection.lineup}" id="div1"
+			ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+		<!-- 	<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div> -->
+	</div>
 	<section>
 		<div class="container">
 			<form th:action="@{/updateLineup}" th:object="${selection}"

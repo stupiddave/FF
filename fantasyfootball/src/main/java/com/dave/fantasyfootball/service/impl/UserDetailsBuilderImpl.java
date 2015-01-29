@@ -1,4 +1,4 @@
-package com.dave.fantasyfootball.service;
+package com.dave.fantasyfootball.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.dave.fantasyfootball.domain.User;
+import com.dave.fantasyfootball.service.UserDetailsBuilder;
 
 @Service
 public class UserDetailsBuilderImpl implements UserDetailsBuilder {

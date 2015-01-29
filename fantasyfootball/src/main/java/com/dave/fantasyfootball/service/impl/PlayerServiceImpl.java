@@ -1,4 +1,4 @@
-package com.dave.fantasyfootball.service;
+package com.dave.fantasyfootball.service.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.repository.PlayerRepository;
+import com.dave.fantasyfootball.service.PlayerService;
 
 @Service
 public class PlayerServiceImpl implements PlayerService{
@@ -55,7 +56,7 @@ public class PlayerServiceImpl implements PlayerService{
 		return playerRepository.getPlayerById(id);
 	}
 
-	public List<Player> getPlayersByPlayerIdList(
+	public List<Player> getSquadPlayersByPlayerIdList(
 			List<Integer> playerIds) throws MalformedURLException, JSONException, IOException {
 		List<Player> squad = new ArrayList<Player>();
 		for (int id : playerIds) {

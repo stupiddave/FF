@@ -47,8 +47,7 @@ public class Team {
 		return squad;
 	}
 
-	public void setSquad(List<Player> squad2) {
-		this.squad = squad2;
+	public void setSquad(List<Player> squad) {
+		this.squad = squad;
 	}
-
 }

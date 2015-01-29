@@ -1,4 +1,4 @@
-package com.dave.fantasyfootball.service;
+package com.dave.fantasyfootball.service.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -13,6 +13,8 @@ import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.repository.TeamRepository;
+import com.dave.fantasyfootball.service.PlayerService;
+import com.dave.fantasyfootball.service.TeamService;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -21,23 +23,27 @@ public class TeamServiceImpl implements TeamService {
 	private TeamRepository teamRepository;
 
 	@Autowired
-	public TeamServiceImpl(PlayerService playerService, TeamRepository teamRepository) {
+	public TeamServiceImpl(PlayerService playerService,
+			TeamRepository teamRepository) {
 		this.playerService = playerService;
 		this.teamRepository = teamRepository;
 	}
-	
+
 	@Override
-	public Team getTeamById(int teamId) throws MalformedURLException, JSONException, IOException {
+	public Team getTeamById(int teamId) throws MalformedURLException,
+			JSONException, IOException {
 		Team team = teamRepository.getTeamInfoById(teamId);
 		team.setSelection(getTeamSelection(teamId));
-		List<Player> squad = playerService.getPlayersByPlayerIdList(teamRepository.getPlayerIdsByTeam(teamId));
+		List<Player> squad = playerService
+				.getSquadPlayersByPlayerIdList(teamRepository
+						.getPlayerIdsByTeam(teamId));
 		team.setSquad(squad);
 
 		return team;
 	}
 
 	public Selection getTeamSelection(int teamId) {
-		
+
 		return teamRepository.getTeamSelection(teamId);
 	}
 
@@ -49,14 +55,14 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public TeamForm getTeamFormById(int teamId) {
-		
+
 		return teamRepository.getTeamFormById(teamId);
 	}
 
 	@Override
 	public void updateTeam(TeamForm teamForm) {
 		playerService.updateTeamPlayers(teamForm);
-		
+
 		Team team = new Team();
 		team.setId(teamForm.getTeamId());
 		team.setName(teamForm.getTeamName());
@@ -66,7 +72,7 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public void addSelection(Selection selection, int teamId) {
-		
+
 		teamRepository.addSelection(selection, teamId);
 	}
 

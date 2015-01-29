@@ -1,11 +1,10 @@
 package com.dave.fantasyfootball.form;
 
-import java.util.ArrayList;
 
 public class SelectionForm {
 
 	private int selectionGameweek;
-	private ArrayList<String> lineup;
+	private String[] lineup = new String[18];
 	private int captainId;
 	private int viceCaptainId;
 
@@ -17,11 +16,11 @@ public class SelectionForm {
 		this.selectionGameweek = selectionGameweek;
 	}
 
-	public ArrayList<String> getLineup() {
+	public String[] getLineup() {
 		return lineup;
 	}
 
-	public void setLineup(ArrayList<String> lineup) {
+	public void setLineup(String[] lineup) {
 		this.lineup = lineup;
 	}
 

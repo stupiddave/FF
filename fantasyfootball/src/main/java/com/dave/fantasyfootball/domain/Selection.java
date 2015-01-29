@@ -1,6 +1,6 @@
 package com.dave.fantasyfootball.domain;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class Selection {
 
 	private int selectionGameweek;
-	private ArrayList<String> lineup;
+	private List<Player> lineup;
 	private int captainId;
 	private int viceCaptainId;
 
@@ -20,11 +20,11 @@ public class Selection {
 		this.selectionGameweek = selectionGameweek;
 	}
 
-	public ArrayList<String> getLineup() {
+	public List<Player> getLineup() {
 		return lineup;
 	}
 
-	public void setLineup(ArrayList<String> lineup) {
+	public void setLineup(List<Player> lineup) {
 		this.lineup = lineup;
 	}
 

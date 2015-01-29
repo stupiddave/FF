@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 
-import com.dave.fantasyfootball.service.FfUserDetailsServiceImpl;
+import com.dave.fantasyfootball.service.impl.FfUserDetailsServiceImpl;
 
 @Configuration
 @EnableWebMvcSecurity

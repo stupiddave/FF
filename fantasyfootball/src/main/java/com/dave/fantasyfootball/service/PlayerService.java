@@ -17,6 +17,6 @@ public interface PlayerService {
 	abstract void addTeamPlayers(TeamForm teamForm);
 	abstract void updateTeamPlayers(TeamForm teamForm);
 	Player getPlayerById(int id) throws MalformedURLException, JSONException, IOException;
-	List<Player> getPlayersByPlayerIdList(List<Integer> playerIds) throws MalformedURLException, JSONException, IOException;
+	List<Player> getSquadPlayersByPlayerIdList(List<Integer> playerIds) throws MalformedURLException, JSONException, IOException;
 	
 }
