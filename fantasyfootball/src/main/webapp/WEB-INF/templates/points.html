@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<title>My Team</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1 th:text="${team.name}">Team Name</h1>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="container">
+			<h3 th:text="'Team Points: ' + ${team.totalPoints}">Team Points</h3>
+			<div>
+				<a th:href="@{/updateLineup}">Update Lineup</a>
+			</div>
+			<div>
+				<a th:href="@{/}">Home</a>
+			</div>
+		</div>
+		<div class="container">
+			<table class="table table-striped" th:text="Team">
+				<tr>
+					<th>Player ID</th>
+					<th>First Name</th>
+					<th>Second Name</th>
+					<th>Position</th>
+					<th>Gameweek Points</th>
+				</tr>
+				<tr th:each="player : ${matchdayTeam.starters}">
+					<td th:text="${player.id}">ID</td>
+					<td th:text="${player.firstName}">first name</td>
+					<td th:text="${player.lastName}">last name</td>
+					<td th:text="${player.position}">position</td>
+					<td th:text="${player.gameweekPoints}">points</td>
+				</tr>
+				<tr><td/><td/><td/><td/><td/>
+				</tr>
+				<tr th:each="player : ${matchdayTeam.subs}">
+					<td th:text="${player.id}">ID</td>
+					<td th:text="${player.firstName}">first name</td>
+					<td th:text="${player.lastName}">last name</td>
+					<td th:text="${player.position}">position</td>
+					<td th:text="${player.gameweekPoints}">points</td>
+				</tr>
+			</table>
+		</div>
+	</section>
+</body>
+</html>
