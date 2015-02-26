@@ -1,42 +1,46 @@
 package com.dave.fantasyfootball.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dave.fantasyfootball.domain.Player;
+import com.dave.fantasyfootball.domain.Team;
+import com.dave.fantasyfootball.service.SelectionFormService;
 
 public class SelectionForm {
 
-	private int selectionGameweek;
-	private String[] lineup = new String[18];
-	private int captainId;
-	private int viceCaptainId;
+	SelectionFormService selectionFormPlayerService;
 
-	public int getSelectionGameweek() {
-		return selectionGameweek;
+	private List<SelectionFormPlayer> lineup = new ArrayList<SelectionFormPlayer>();
+	private Player captain;
+	private Player viceCaptain;
+
+	public SelectionForm(Team team, SelectionFormService selectionFormPlayerService) {
+		this.selectionFormPlayerService = selectionFormPlayerService;
+		this.lineup = selectionFormPlayerService.getSelectionFormPlayersFromTeam(team);
 	}
 
-	public void setSelectionGameweek(int selectionGameweek) {
-		this.selectionGameweek = selectionGameweek;
-	}
-
-	public String[] getLineup() {
+	public List<SelectionFormPlayer> getLineup() {
 		return lineup;
 	}
 
-	public void setLineup(String[] lineup) {
+	public void setLineup(List<SelectionFormPlayer> lineup) {
 		this.lineup = lineup;
 	}
 
-	public int getCaptainId() {
-		return captainId;
+	public Player getCaptain() {
+		return captain;
 	}
 
-	public void setCaptainId(int captainId) {
-		this.captainId = captainId;
+	public void setCaptain(Player captain) {
+		this.captain = captain;
 	}
 
-	public int getViceCaptainId() {
-		return viceCaptainId;
+	public Player getViceCaptain() {
+		return viceCaptain;
 	}
 
-	public void setViceCaptainId(int viceCaptainId) {
-		this.viceCaptainId = viceCaptainId;
+	public void setViceCaptain(Player viceCaptain) {
+		this.viceCaptain = viceCaptain;
 	}
 }

@@ -22,6 +22,7 @@ import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.service.PropertiesService;
+import com.dave.fantasyfootball.service.SelectionFormService;
 import com.dave.fantasyfootball.service.TeamService;
 import com.dave.fantasyfootball.service.UserService;
 
@@ -32,17 +33,20 @@ public class TeamController {
 	private TeamService teamService;
 	private UserService userService;
 	private PropertiesService propertiesService;
+	private SelectionFormService selectionFormService;
 
 	@Autowired
 	private User user;
 
 	@Autowired
 	public TeamController(PlayerService playerService, TeamService teamService,
-			UserService userService, PropertiesService propertiesService) {
+			UserService userService, PropertiesService propertiesService,
+			SelectionFormService selectionFormService) {
 		this.playerService = playerService;
 		this.teamService = teamService;
 		this.userService = userService;
 		this.propertiesService = propertiesService;
+		this.selectionFormService = selectionFormService;
 	}
 
 	@RequestMapping("/{TeamId}")
@@ -84,8 +88,7 @@ public class TeamController {
 	}
 
 	@RequestMapping(value = "/updateTeam", method = RequestMethod.POST)
-	public String processTeamUpdate(
-			@ModelAttribute("teamForm") TeamForm teamForm) {
+	public String processTeamUpdate(@ModelAttribute("teamForm") TeamForm teamForm) {
 		teamService.updateTeam(teamForm);
 		return "redirect:/";
 	}
@@ -99,22 +102,20 @@ public class TeamController {
 		System.out.println("Current user is: " + user.getFirstName());
 		Team team = teamService.getTeamById(user.getTeamId());
 		model.addAttribute("team", team);
-		SelectionForm selectionForm = new SelectionForm();
-		selectionForm.setSelectionGameweek(propertiesService.getCurrentGameweek());
+		SelectionForm selectionForm = new SelectionForm(team, selectionFormService);
 		model.addAttribute("selection", selectionForm);
 		return "updateLineup";
 	}
 
 	@RequestMapping(value = "/updateLineup", method = RequestMethod.POST)
-	public String processLineupUpdate(
-			@ModelAttribute("selection") Selection selection) {
-		teamService.addSelection(selection, user.getTeamId());
+	public String processLineupUpdate(@ModelAttribute("selection") SelectionForm selectionForm) {
+		teamService.addSelection(selectionForm, user.getTeamId());
 		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/myTeam", method = RequestMethod.GET)
-	public String myTeam(HttpServletRequest request, Model model)
-			throws MalformedURLException, JSONException, IOException {
+	public String myTeam(HttpServletRequest request, Model model) throws MalformedURLException,
+			JSONException, IOException {
 		if (user.getUsername() == null) {
 			userService.buildSessionUser(request.getUserPrincipal().getName());
 		}
@@ -123,5 +124,5 @@ public class TeamController {
 		model.addAttribute("user", user);
 		return "team";
 	}
-	
+
 }

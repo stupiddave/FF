@@ -28,9 +28,8 @@ public class MatchdayTeamServiceImpl implements MatchdayTeamService {
 	}
 
 	@Override
-	public MatchdayTeam buildMatchDayTeam(Team team)
-			throws NumberFormatException, MalformedURLException, JSONException,
-			IOException {
+	public MatchdayTeam buildMatchDayTeam(Team team) throws NumberFormatException,
+			MalformedURLException, JSONException, IOException {
 
 		MatchdayTeam matchdayTeam = buildSelectedMatchdayTeam(team);
 		matchdayTeam.makeSubstitutions();
@@ -47,10 +46,9 @@ public class MatchdayTeamServiceImpl implements MatchdayTeamService {
 	private MatchdayTeam resolveCaptaincy(MatchdayTeam matchdayTeam, Team team)
 			throws MalformedURLException, JSONException, IOException {
 
-		Player selectedCaptain = playerService.getPlayerById(team
-				.getSelection().getCaptainId());
-		Player selectedViceCaptain = playerService.getPlayerById(team
-				.getSelection().getViceCaptainId());
+		Player selectedCaptain = playerService.getPlayerById(team.getSelection().getCaptainId());
+		Player selectedViceCaptain = playerService.getPlayerById(team.getSelection()
+				.getViceCaptainId());
 
 		Player playingCaptain = selectedCaptain;
 		if (!matchdayTeam.getStarters().contains(selectedCaptain)
@@ -62,17 +60,14 @@ public class MatchdayTeamServiceImpl implements MatchdayTeamService {
 		return matchdayTeam;
 	}
 
-	public MatchdayTeam buildSelectedMatchdayTeam(Team team)
-			throws NumberFormatException, MalformedURLException, JSONException,
-			IOException {
+	public MatchdayTeam buildSelectedMatchdayTeam(Team team) throws NumberFormatException,
+			MalformedURLException, JSONException, IOException {
 
 		List<Player> lineup = team.getSelection().getLineup();
 		List<Player> starters = new ArrayList<Player>(lineup.subList(0, 11));
-		List<Player> subs = new ArrayList<Player>(lineup.subList(11,
-				lineup.size()));
+		List<Player> subs = new ArrayList<Player>(lineup.subList(11, lineup.size()));
 
-		MatchdayTeam selectedTeam = new MatchdayTeam(team.getId(), starters,
-				subs);
+		MatchdayTeam selectedTeam = new MatchdayTeam(team.getId(), starters, subs);
 		return selectedTeam;
 	}
 

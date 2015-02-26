@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<title>Lineup</title>
+</head>
+<body>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1>Lineup</h1>
+				<p th:text="${team.name}">Team Name</p>
+				<!-- 				<p th:text="'Next gameweek: ' + ${selection.selectionGameweek}">Gameweek</p> -->
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="container">
+			<form th:action="@{/updateLineup}" th:object="${selection}"
+				method="post">
+				<input th:type="hidden" th:field="*{selectionGameweek}"
+					th:value="${selection.selectionGameweek}"></input>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId1">Player
+							1:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[0]}" id="playerId1">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId2">Player
+							2: </label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[1]}" id="playerId2">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId3">Player
+							3:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[2]}" id="playerId3">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId4">Player
+							4:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[3]}" id="playerId4">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId5">Player
+							5:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[4]}" id="playerId5">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId6">Player
+							6:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[5]}" id="playerId6">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId7">Player
+							7:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[6]}" id="playerId7">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId8">Player
+							8:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[7]}" id="playerId8">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId9">Player
+							9:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[8]}" id="playerId9">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId10">Player
+							10:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[9]}" id="playerId10">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId11">Player
+							11:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[10]}" id="playerId11">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId12">Player
+							12:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[11]}" id="playerId12">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId13">Player
+							13:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[12]}" id="playerId13">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId14">Player
+							14:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[13]}" id="playerId14">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId15">Player
+							15:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[14]}" id="playerId15">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId16">Player
+							16:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[15]}" id="playerId16">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId17">Player
+							17:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[16]}" id="playerId17">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="playerId18">Player
+							18:</label>
+						<div class="col-lg-10">
+							<select th:field="*{lineup[17]}" id="playerId18">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="captain">Captain:</label>
+						<div class="col-lg-10">
+							<select th:field="*{captainId}" id="captain">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<label class="control-label col-lg-2 col-lg-2" for="viceCaptain">Vice
+							Captain:</label>
+						<div class="col-lg-10">
+							<select th:field="*{viceCaptainId}" id="viceCaptain">
+								<option th:each="player : ${team.squad}" th:value="${player.id}"
+									th:text="${player.webName}">Player Name</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-10">
+						<button type="submit" class="btn btn-primary" th:text="Update">Update!</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+</body>
+</html>

@@ -85,17 +85,10 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	@Override
 	public Player getPlayerById(int id) throws JSONException, IOException {
 		Player player = new Player();
-		int minutesPlayed;
 
-		JSONObject playerJson = retrievePlayerJson(id);
+		JSONObject playerJson = getPlayerJson(id);
 
 		JSONArray gameweekEvent = playerJson.getJSONArray("event_explain");
-		for (int i = 0; i < gameweekEvent.length(); i++) {
-			JSONArray eventArray = gameweekEvent.getJSONArray(i);
-			if (eventArray.getString(0) == "Minutes played") {
-				minutesPlayed = eventArray.getInt(2);
-			}
-		}
 		
 		player.setId(id);
 		player.setFirstName(playerJson.getString("first_name"));
@@ -107,10 +100,11 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 		player.setClub(playerJson.getString("team_name"));
 		player.setImageFile(playerJson.getString("photo"));
 		player.setMinutesPlayed();
+		player.setNextOpposition(playerJson.getString("current_fixture"));
 		return player;
 	}
 
-	private JSONObject retrievePlayerJson(int id)
+	public JSONObject getPlayerJson(int id)
 			throws JSONException, IOException {
 		JSONObject playerJson;
 		try {

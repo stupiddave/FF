@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
+import com.dave.fantasyfootball.form.SelectionForm;
+import com.dave.fantasyfootball.form.SelectionFormPlayer;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.service.PlayerService;
 
@@ -189,9 +191,8 @@ public class TeamRepositoryImpl implements TeamRepository {
 	}
 
 	@Override
-	public void addSelection(Selection selection, int teamId) {
+	public void addSelection(SelectionForm selectionForm, int teamId) {
 		String sql = "INSERT INTO selection_t (team_id "
-				+ ", selection_gameweek"
 				+ ", player1_id"
 				+ ", player2_id"
 				+ ", player3_id"
@@ -214,7 +215,6 @@ public class TeamRepositoryImpl implements TeamRepository {
 				+ ", vice_captain_id"
 				+ ", updt_dtm ) VALUES"
 				+ " (:team_id"
-				+ ", :selection_gameweek"
 				+ ", :player1_id"
 				+ ", :player2_id"
 				+ ", :player3_id"
@@ -239,13 +239,18 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("team_id", teamId);
-		params.addValue("selection_gameweek", selection.getSelectionGameweek());
-		for(Integer i = 0; i < selection.getLineup().size(); i++) {
-			int j = i + 1;
-			params.addValue("player" + j + "_id", selection.getLineup().get(i));
+		for (int i = 0; i < 18; i++) {
+			SelectionFormPlayer currentPlayer = null;
+			for(SelectionFormPlayer player : selectionForm.getLineup()) {
+				if (player.getIsStarter()) {
+					params.addValue("player" + i + "_id", player.getId());
+					currentPlayer = player;
+				}
+			} 
+			selectionForm.getLineup().remove(currentPlayer);
 		}
-		params.addValue("captain_id", selection.getCaptainId());
-		params.addValue("vice_captain_id", selection.getViceCaptainId());
+		params.addValue("captain_id", selectionForm.getCaptain().getId());
+		params.addValue("vice_captain_id", selectionForm.getViceCaptain().getId());
 		
 		int rowNum = jdbcTemplate.update(sql, params);
 		System.out.println("Number of rows affected: " + rowNum);

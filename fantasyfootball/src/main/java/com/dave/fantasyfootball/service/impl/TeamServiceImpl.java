@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
+import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.repository.TeamRepository;
 import com.dave.fantasyfootball.service.PlayerService;
@@ -71,9 +72,9 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void addSelection(Selection selection, int teamId) {
+	public void addSelection(SelectionForm selectionForm, int teamId) {
 
-		teamRepository.addSelection(selection, teamId);
+		teamRepository.addSelection(selectionForm, teamId);
 	}
 
 }

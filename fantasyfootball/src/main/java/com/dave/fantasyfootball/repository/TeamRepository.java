@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
+import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
 
 public interface TeamRepository {
@@ -13,6 +14,6 @@ public interface TeamRepository {
 	TeamForm getTeamFormById(int teamId);
 	void updateTeam(Team team);
 	Selection getTeamSelection(int teamId);
-	void addSelection(Selection selection, int teamId);
+	void addSelection(SelectionForm selectionForm, int teamId);
 	List<Integer> getPlayerIdsByTeam(int teamId);
 }

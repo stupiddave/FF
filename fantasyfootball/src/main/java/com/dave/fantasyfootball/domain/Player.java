@@ -15,8 +15,9 @@ public class Player {
 	private String position;
 	private int gameweekPoints;
 	private JSONArray gameweekEvent;
-	private String imageFile;
+	private String imageFileId;
 	private int minutesPlayed;
+	private String nextOpposition;
 
 	public int getId() {
 		return id;
@@ -89,11 +90,11 @@ public class Player {
 	}
 
 	public String getImageFile() {
-		return imageFile;
+		return imageFileId;
 	}
 
 	public void setImageFile(String imageFile) {
-		this.imageFile = imageFile;
+		this.imageFileId = imageFile;
 	}
 
 	public int getMinutesPlayed() {
@@ -109,5 +110,13 @@ public class Player {
 				this.minutesPlayed = 0;
 			}
 		}
+	}
+
+	public String getNextOpposition() {
+		return nextOpposition;
+	}
+
+	public void setNextOpposition(String nextOpposition) {
+		this.nextOpposition = nextOpposition;
 	}
 }

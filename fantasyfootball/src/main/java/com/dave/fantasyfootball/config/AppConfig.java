@@ -1,5 +1,8 @@
 package com.dave.fantasyfootball.config;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.sql.DataSource;
 
 import org.apache.derby.jdbc.ClientDriver;
@@ -11,6 +14,8 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.thymeleaf.dialect.IDialect;
+import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -51,6 +56,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
 		templateEngine.setTemplateResolver(this
 				.getServletContextTemplateResolver());
+		Set<IDialect> dialects = new HashSet<IDialect>();
+		dialects.add(getSpringSecurityDialect());
+		templateEngine.setAdditionalDialects(dialects);
 		return templateEngine;
 	}
 
@@ -59,6 +67,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(this.getTemplateEngine());
 		return viewResolver;
+	}
+
+	@Bean
+	public SpringSecurityDialect getSpringSecurityDialect() {
+		SpringSecurityDialect dialect = new SpringSecurityDialect();
+		return dialect;
 	}
 
 	@Bean
