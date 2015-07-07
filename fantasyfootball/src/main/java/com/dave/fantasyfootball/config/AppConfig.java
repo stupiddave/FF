@@ -25,18 +25,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @Configuration
 public class AppConfig extends WebMvcConfigurerAdapter {
 
-//	@Autowired
-//	public void configureGlobal(AuthenticationManagerBuilder auth)
-//			throws Exception {
-//		auth.inMemoryAuthentication().withUser("user1").password("password")
-//				.roles("USER");
-//	}
-//
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http.csrf().disable()
-//		.antMatcher("/*");
-//	}
-
 	@Override
 	public void configureDefaultServletHandling(
 			DefaultServletHandlerConfigurer configurer) {
