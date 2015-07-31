@@ -1,14 +1,17 @@
 package com.dave.fantasyfootball.config;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.sql.DataSource;
 
-import org.apache.derby.jdbc.ClientDriver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -20,14 +23,16 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import com.mysql.jdbc.Driver;
+
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.dave.fantasyfootball" })
 @Configuration
+@PropertySource("classpath:/properties/application.properties")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override
-	public void configureDefaultServletHandling(
-			DefaultServletHandlerConfigurer configurer) {
+	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
 	}
 
@@ -42,8 +47,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public SpringTemplateEngine getTemplateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(this
-				.getServletContextTemplateResolver());
+		templateEngine.setTemplateResolver(this.getServletContextTemplateResolver());
 		Set<IDialect> dialects = new HashSet<IDialect>();
 		dialects.add(getSpringSecurityDialect());
 		templateEngine.setAdditionalDialects(dialects);
@@ -64,22 +68,34 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	NamedParameterJdbcTemplate getJdbcTemplate() {
-		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(
-				getDataSource());
+	static PropertySourcesPlaceholderConfigurer configurer() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+
+	@Value("${db.connection.url}") 
+	String url;
+	
+	@Value("${db.username}") 
+	String username;
+	
+	@Value("${db.password}") 
+	String password;
+	
+	@Bean
+	NamedParameterJdbcTemplate getJdbcTemplate() throws SQLException {
+		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 		return jdbcTemplate;
 	}
 
 	@Bean
-	ClientDriver getDriver() {
-		ClientDriver driver = new ClientDriver();
+	Driver getDriver() throws SQLException {
+		Driver driver = new Driver();
 		return driver;
 	}
 
 	@Bean
-	DataSource getDataSource() {
-		SimpleDriverDataSource dataSource = new SimpleDriverDataSource(
-				getDriver(), "jdbc:derby://localhost:1527/FF_DB;create=true");
+	DataSource getDataSource() throws SQLException {
+		SimpleDriverDataSource dataSource = new SimpleDriverDataSource(getDriver(), url, username, password);
 		System.out.println(dataSource.getUrl());
 		return dataSource;
 	}

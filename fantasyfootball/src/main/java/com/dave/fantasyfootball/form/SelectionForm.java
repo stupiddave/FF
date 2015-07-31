@@ -3,8 +3,6 @@ package com.dave.fantasyfootball.form;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.service.SelectionFormService;

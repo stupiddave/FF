@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.service.PropertiesService;
 import com.dave.fantasyfootball.service.UserService;
 
@@ -16,12 +17,14 @@ public class AdminController {
 
 	PropertiesService propertiesService;
 	private UserService userService;
+	private PlayerService playerService;
 
 	@Autowired
 	public AdminController(PropertiesService propertiesService,
-			UserService userService) {
+			UserService userService, PlayerService playerService) {
 		this.propertiesService = propertiesService;
 		this.userService = userService;
+		this.playerService = playerService;
 	}
 
 	@RequestMapping
@@ -45,6 +48,12 @@ public class AdminController {
 	@RequestMapping(value = "/decrementGameweek")
 	public String decrementGameweek() {
 		propertiesService.decrementGameweek();
+		return "redirect:/admin";
+	}
+	
+	@RequestMapping("/reloadPlayers")
+	public String reload() {
+		playerService.reloadPlayerInfo();
 		return "redirect:/admin";
 	}
 }

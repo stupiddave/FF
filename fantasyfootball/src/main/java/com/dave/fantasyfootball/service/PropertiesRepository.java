@@ -5,5 +5,6 @@ public interface PropertiesRepository {
 	int incrementGameweek();
 	int decrementGameweek();
 	int getCurrentGameweek();
+	void initializeGameweek();
 
 }

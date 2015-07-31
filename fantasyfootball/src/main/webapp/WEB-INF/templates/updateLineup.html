@@ -14,7 +14,7 @@
 
 		<div th:each="player, playerStat : ${team.squad}" class="form-group">
 			<div class="control-label col-xs-4">
-				<label th:text="${player.webName}">label</label>
+				<label th:text="${player.webName}">Player Name</label>
 				<input type="hidden" th:field="*{lineup[__${playerStat.index}__].id}" th:value="${player.id}" />
 			</div>
 			<div class="col-xs-4">

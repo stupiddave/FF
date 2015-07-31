@@ -13,10 +13,12 @@ public interface PlayerService {
 
 	List<Player> getAllPlayers();
 
-	abstract List<Player> getPlayersByClub(String club);
-	abstract void addTeamPlayers(TeamForm teamForm);
-	abstract void updateTeamPlayers(TeamForm teamForm);
+	List<Player> getPlayersByClub(String club);
+	void addTeamPlayers(TeamForm teamForm);
+	void updateTeamPlayers(TeamForm teamForm);
 	Player getPlayerById(int id) throws MalformedURLException, JSONException, IOException;
 	List<Player> getSquadPlayersByPlayerIdList(List<Integer> playerIds) throws MalformedURLException, JSONException, IOException;
+	void reloadPlayerInfo();
+	List<Player> getAllPlayersInfo();
 	
 }

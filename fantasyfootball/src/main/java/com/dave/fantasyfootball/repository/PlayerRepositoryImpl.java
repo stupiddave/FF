@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -22,6 +23,8 @@ import com.dave.fantasyfootball.utils.Position;
 @Repository
 public class PlayerRepositoryImpl implements PlayerRepository {
 
+	private static final int TOTAL_PLAYERS = 527;
+
 	public PlayerRepositoryImpl() {
 	}
 
@@ -34,7 +37,21 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
 	@Override
 	public List<Player> getAllPlayers() {
-		return null;
+		System.out.println("Getting all players...");
+		List<Player> allPlayers = new ArrayList<Player>();
+		for (int i = 1; i < TOTAL_PLAYERS; i++) {
+			System.out.println("Getting player with id " + i);
+			Player player = null;
+			try {
+				player = getPlayerById(i);
+			} catch (Exception e) {
+				System.out.println("Error getting player with id " + i);
+			}
+			if (player != null) {
+				allPlayers.add(player);
+			}
+		}
+		return allPlayers;
 	}
 
 	@Override
@@ -70,6 +87,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
 	@Override
 	public List<Integer> getPlayersByTeam(int teamId) {
+
 		return null;
 	}
 
@@ -77,8 +95,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	public void removePlayersFromTeam(int teamId) {
 		String sql = "DELETE FROM player_t " + "WHERE team_id = :teamId";
 
-		MapSqlParameterSource params = new MapSqlParameterSource("teamId",
-				teamId);
+		MapSqlParameterSource params = new MapSqlParameterSource("teamId", teamId);
 		jdbcTemplate.update(sql, params);
 	}
 
@@ -89,7 +106,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 		JSONObject playerJson = getPlayerJson(id);
 
 		JSONArray gameweekEvent = playerJson.getJSONArray("event_explain");
-		
+
 		player.setId(id);
 		player.setFirstName(playerJson.getString("first_name"));
 		player.setLastName(playerJson.getString("second_name"));
@@ -104,29 +121,64 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 		return player;
 	}
 
-	public JSONObject getPlayerJson(int id)
-			throws JSONException, IOException {
+	public JSONObject getPlayerJson(int id) throws JSONException, IOException {
 		JSONObject playerJson;
 		try {
-			playerJson = new JSONObject(IOUtils.toString(new URL(
-					"http://fantasy.premierleague.com/web/api/elements/" + id)
-					.openStream()));
+			playerJson = new JSONObject(
+					IOUtils.toString(new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream()));
 		} catch (IOException e) {
 			try {
-				playerJson = new JSONObject(IOUtils.toString(new URL(
-						"http://fantasy.premierleague.com/web/api/elements/"
-								+ id).openStream()));
+				playerJson = new JSONObject(IOUtils
+						.toString(new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream()));
 			} catch (IOException e1) {
 				try {
-					playerJson = new JSONObject(IOUtils.toString(new URL(
-							"http://fantasy.premierleague.com/web/api/elements/"
-									+ id).openStream()));
+					playerJson = new JSONObject(IOUtils
+							.toString(new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream()));
 				} catch (IOException e2) {
 					e2.printStackTrace();
-					throw new IOException("Could not connest to Fantasy Premier League whilst trying to retrieve player " + id);
+					throw new IOException(
+							"Could not connect to Fantasy Premier League whilst trying to retrieve player " + id);
 				}
 			}
 		}
 		return playerJson;
+	}
+
+	@Override
+	public void deleteAllPlayerInfo() {
+		String sql = "DELETE FROM player_info_t";
+		jdbcTemplate.update(sql, new MapSqlParameterSource());
+	}
+
+	@Override
+	public void addPlayerInfo(Player player) {
+		System.out.println("Adding player info for " + player.getWebName());
+		String sql = "INSERT INTO player_info_t (id , first_name , second_name , web_name , position , club) VALUES (:id, :firstName, :secondName , :webName , :position , :club)";
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("id", player.getId());
+		params.addValue("firstName", player.getFirstName());
+		params.addValue("secondName", player.getLastName());
+		params.addValue("webName", player.getWebName());
+		params.addValue("position", player.getPosition());
+		params.addValue("club", player.getClub());
+		jdbcTemplate.update(sql, params);
+	}
+
+	@Override
+	public List<Player> getAllPlayersInfo() {
+		List<Player> playersInfo = new ArrayList<Player>();
+		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t";
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, new MapSqlParameterSource());
+		for (Map<String, Object> row : rows) {
+			Player player = new Player();
+			player.setId((Integer) row.get("id"));
+			player.setFirstName((String) row.get("first_name"));
+			player.setLastName((String) row.get("second_name"));
+			player.setWebName((String) row.get("web_name"));
+			player.setClub((String) row.get("club"));
+			player.setPosition((String) row.get("position"));
+			playersInfo.add(player);
+		}
+		return playersInfo;
 	}
 }

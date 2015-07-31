@@ -1,10 +1,11 @@
-package com.dave.fantasyfootball.service;
+package com.dave.fantasyfootball.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.repository.UserRepository;
+import com.dave.fantasyfootball.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {

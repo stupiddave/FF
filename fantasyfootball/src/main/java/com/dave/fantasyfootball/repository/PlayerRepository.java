@@ -18,4 +18,7 @@ public interface PlayerRepository {
 	List<Integer> getPlayersByTeam(int teamId);
 	void removePlayersFromTeam(int teamId);
 	Player getPlayerById(int id) throws MalformedURLException, JSONException, IOException;
+	void deleteAllPlayerInfo();
+	void addPlayerInfo(Player player);
+	List<Player> getAllPlayersInfo();
 }

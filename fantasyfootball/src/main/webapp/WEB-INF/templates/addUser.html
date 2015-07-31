@@ -62,7 +62,7 @@
 			<div class="form-group">
 				<label class="control-label col-lg-2 col-lg-2" for="userType">Access:</label>
 				<div class="col-lg-10">
-					<select>
+					<select th:field="*{userType}">
 						<option th:value="'USER'" th:text="'User'">User</option>
 						<option th:value="'ADMIN'" th:text="'Admin'">Admin</option>
 					</select>
@@ -70,7 +70,7 @@
 			</div>
 			<div class="col-lg-10">
 				<button type="submit" id="addUser" class="btn btn-primary"
-					th:text="Submit">Big Button</button>
+					th:text="Submit">Submit</button>
 			</div>
 		</form>
 

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.service.TeamService;
 import com.dave.fantasyfootball.service.UserService;
@@ -39,14 +38,14 @@ public class HomeController {
 					.getName());
 		}
 		
-		Team team = teamService.getTeamById(user.getTeamId());
+//		Team team = teamService.getTeamById(user.getTeamId());
 
 		if (!model.containsAttribute("user")) {
 			model.addAttribute("user", user);
 		}
-		if (!model.containsAttribute("team")) {
-			model.addAttribute("team", team);
-		}
+//		if (!model.containsAttribute("team")) {
+//			model.addAttribute("team", team);
+//		}
 		return "home";
 	}
 

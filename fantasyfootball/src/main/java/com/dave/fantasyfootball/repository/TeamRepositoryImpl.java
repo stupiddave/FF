@@ -128,12 +128,11 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 	@Override
 	public TeamForm getTeamFormById(int id) {
-		TeamForm teamForm = new TeamForm();
 		String teamSql = "SELECT team_id" + ", team_name"
 				+ ", team_total_points" + " FROM team_t"
 				+ " WHERE team_id = :id";
 
-		jdbcTemplate.query(teamSql, new MapSqlParameterSource("id", id),
+		TeamForm teamForm = jdbcTemplate.queryForObject(teamSql, new MapSqlParameterSource("id", id),
 				teamFormRowMapper);
 		String teamPlayersSql = "SELECT player_id " + "FROM player_t "
 				+ "WHERE team_id = :id";
@@ -183,7 +182,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 				+ ", vice_captain_id "
 				+ "FROM selection_t "
 				+ "WHERE team_id = :teamId "
-				+ "ORDER BY updt_dtm DESC FETCH FIRST ROW ONLY";
+				+ "ORDER BY updt_dtm DESC LIMIT 1";
 		
 		MapSqlParameterSource params = new MapSqlParameterSource("teamId", teamId);
 		

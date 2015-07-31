@@ -3,8 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
 <title>Team Selection</title>
 </head>
 <body>
@@ -19,155 +18,187 @@
 	<section>
 		<form th:action="@{/addTeam}" th:object="${newTeam}" method="post">
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="teamId">Team
-					ID:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="teamId">Team ID:</label>
 				<div class="col-lg-10">
 					<input type="text" th:field="*{teamId}" class="form:input-large" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="teamName">Team
-					Name:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="teamName">Team Name:</label>
 				<div class="col-lg-10">
 					<input type="text" th:field="*{teamName}" class="form:input-large" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId1">Player
-					1:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId1">Player 1:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[0]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[0]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId2">Player
-					2:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId2">Player 2:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[1]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[1]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId3">Player
-					3:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId3">Player 3:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[2]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[2]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId4">Player
-					4:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId4">Player 4:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[3]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[3]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId5">Player
-					5:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId5">Player 5:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[4]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[4]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId6">Player
-					6:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId6">Player 6:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[5]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[5]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId7">Player
-					7:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId7">Player 7:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[6]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[6]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId8">Player
-					8:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId8">Player 8:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[7]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[7]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId9">Player
-					9:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId9">Player 9:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[8]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[8]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId10">Player
-					10:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId10">Player 10:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[9]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[9]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId11">Player
-					11:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId11">Player 11:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[10]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[10]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId12">Player
-					12:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId12">Player 12:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[11]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[11]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId13">Player
-					13:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId13">Player 13:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[12]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[12]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId14">Player
-					14:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId14">Player 14:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[13]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[13]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId15">Player
-					15:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId15">Player 15:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[14]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[14]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId16">Player
-					16:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId16">Player 16:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[15]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[15]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId17">Player
-					17:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId17">Player 17:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[16]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[16]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="playerId18">Player
-					18:</label>
+				<label class="control-label col-lg-2 col-lg-2" for="playerId18">Player 18:</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{playerIds[17]}" />
+					<select class="form-control" data-live-search="true" th:field="*{playerIds[17]}">
+						<option th:each="player : ${allPlayers}" th:value="${player.id}" th:text="${player.webName + ' ' + player.club}">Name
+						</option>
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-lg-2 col-lg-2" for="teamPoints">Team
-					Points (Optional)</label>
+				<label class="control-label col-lg-2 col-lg-2" for="teamPoints">Team Points (Optional)</label>
 				<div class="col-lg-10">
-					<input type="text" th:field="*{teamPoints}" />
+					<input type="text" th:field="*{teamPoints}" class="form:input-large" />
 				</div>
 			</div>
 			<div class="col-lg-10">
-				<button type="submit" id="addTeam" class="btn btn-primary"
-					th:text="Submit">Big Button</button>
+				<button type="submit" id="addTeam" class="btn btn-primary" th:text="Submit">Big Button</button>
 			</div>
 		</form>
 

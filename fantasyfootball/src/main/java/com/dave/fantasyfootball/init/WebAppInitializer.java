@@ -16,16 +16,12 @@ public class WebAppInitializer implements WebApplicationInitializer {
 
 	@Override
 	public void onStartup(ServletContext container) {
-		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(configurationClasses);
 
-		container.addListener(new ContextLoaderListener(rootContext));
-
-		// Create the dispatcher servlet's Spring application context
 		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
 		dispatcherContext.register(configurationClasses);
 
-		// Register and map the dispatcher servlet
+		container.addListener(new ContextLoaderListener(dispatcherContext));
+
 		ServletRegistration.Dynamic dispatcher = container.addServlet(
 				"dispatcher", new DispatcherServlet(dispatcherContext));
 		dispatcher.setLoadOnStartup(1);

@@ -15,20 +15,19 @@ import com.dave.fantasyfootball.repository.PlayerRepository;
 import com.dave.fantasyfootball.service.PlayerService;
 
 @Service
-public class PlayerServiceImpl implements PlayerService{
+public class PlayerServiceImpl implements PlayerService {
 
 	@Autowired
 	private PlayerRepository playerRepository;
 
-
 	public List<Player> getAllPlayers() {
-		return playerRepository.getAllPlayers(); 
+		return playerRepository.getAllPlayers();
 	}
-	
+
 	@Override
 	public List<Player> getPlayersByClub(String club) {
 		List<Player> players = new ArrayList<Player>();
-		
+
 		List<Player> playersByClub = new ArrayList<Player>();
 		for (Player player : players) {
 			playersByClub.add(player);
@@ -39,7 +38,7 @@ public class PlayerServiceImpl implements PlayerService{
 	@Override
 	public void addTeamPlayers(TeamForm teamForm) {
 		int teamId = teamForm.getTeamId();
-		for(int i = 0; i < teamForm.getPlayerIds().size(); i++) {
+		for (int i = 0; i < teamForm.getPlayerIds().size(); i++) {
 			playerRepository.addPlayer(Integer.parseInt(teamForm.getPlayerIds().get(i)), teamId);
 		}
 	}
@@ -48,7 +47,7 @@ public class PlayerServiceImpl implements PlayerService{
 	public void updateTeamPlayers(TeamForm teamForm) {
 		playerRepository.removePlayersFromTeam(teamForm.getTeamId());
 		addTeamPlayers(teamForm);
-				
+
 	}
 
 	@Override
@@ -56,13 +55,26 @@ public class PlayerServiceImpl implements PlayerService{
 		return playerRepository.getPlayerById(id);
 	}
 
-	public List<Player> getSquadPlayersByPlayerIdList(
-			List<Integer> playerIds) throws MalformedURLException, JSONException, IOException {
+	public List<Player> getSquadPlayersByPlayerIdList(List<Integer> playerIds)
+			throws MalformedURLException, JSONException, IOException {
 		List<Player> squad = new ArrayList<Player>();
 		for (int id : playerIds) {
 			Player player = getPlayerById(id);
 			squad.add(player);
 		}
 		return squad;
+	}
+
+	@Override
+	public void reloadPlayerInfo() {
+		playerRepository.deleteAllPlayerInfo();
+		for (Player player : getAllPlayers()) {
+			playerRepository.addPlayerInfo(player);
+		}
+	}
+
+	@Override
+	public List<Player> getAllPlayersInfo() {
+		return playerRepository.getAllPlayersInfo();
 	}
 }

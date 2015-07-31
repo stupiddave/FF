@@ -2,6 +2,7 @@ package com.dave.fantasyfootball.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.dave.fantasyfootball.domain.Selection;
+import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.form.SelectionForm;
@@ -59,7 +60,9 @@ public class TeamController {
 	}
 
 	@RequestMapping(value = "/addTeam", method = RequestMethod.GET)
-	public String addTeam(@ModelAttribute("newTeam") TeamForm newTeam) {
+	public String addTeam(Model model, @ModelAttribute("newTeam") TeamForm newTeam) {
+		List<Player> allPlayersInfo = playerService.getAllPlayersInfo();
+		model.addAttribute("allPlayers", allPlayersInfo);
 		return "addTeam";
 
 	}

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Selection;
-import com.dave.fantasyfootball.domain.Team;
 
 public interface SelectionRepository {
 
