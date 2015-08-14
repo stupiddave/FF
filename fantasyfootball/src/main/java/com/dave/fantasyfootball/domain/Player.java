@@ -1,11 +1,15 @@
 package com.dave.fantasyfootball.domain;
 
+import java.io.Serializable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Player {
+public class Player implements Serializable {
+
+	private static final long serialVersionUID = -5159589445791247199L;
 
 	private int id;
 	private String firstName;

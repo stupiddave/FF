@@ -15,6 +15,7 @@ import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.repository.TeamRepository;
 import com.dave.fantasyfootball.service.PlayerService;
+import com.dave.fantasyfootball.service.PropertiesService;
 import com.dave.fantasyfootball.service.TeamService;
 
 @Service
@@ -22,12 +23,14 @@ public class TeamServiceImpl implements TeamService {
 
 	private PlayerService playerService;
 	private TeamRepository teamRepository;
+	private PropertiesService propertiesService;
 
 	@Autowired
 	public TeamServiceImpl(PlayerService playerService,
-			TeamRepository teamRepository) {
+			TeamRepository teamRepository, PropertiesService propertiesService) {
 		this.playerService = playerService;
 		this.teamRepository = teamRepository;
+		this.propertiesService = propertiesService;
 	}
 
 	@Override
@@ -72,9 +75,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void addSelection(SelectionForm selectionForm, int teamId) {
-
-		teamRepository.addSelection(selectionForm, teamId);
+	public void addSelection(Selection selection, int teamId) {
+		teamRepository.addSelection(selection, teamId, propertiesService.getCurrentGameweek());
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,13 +17,13 @@ import org.springframework.stereotype.Repository;
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
-import com.dave.fantasyfootball.form.SelectionForm;
-import com.dave.fantasyfootball.form.SelectionFormPlayer;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.service.PlayerService;
 
 @Repository
 public class TeamRepositoryImpl implements TeamRepository {
+
+	private static final String NO_TEAM_MSG = "No team available for id ";
 
 	@Autowired
 	public TeamRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate, PlayerService playerService) {
@@ -97,12 +98,17 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 	@Override
 	public Team getTeamInfoById(int id) {
+		Team team;
 		String teamSql = "SELECT team_id" + ", team_name"
 				+ ", team_total_points" + " FROM team_t"
 				+ " WHERE team_id = :id";
-
-		Team team = jdbcTemplate.queryForObject(teamSql,
+		try {
+		team = jdbcTemplate.queryForObject(teamSql,
 				new MapSqlParameterSource("id", id), teamRowMapper);
+		} catch(EmptyResultDataAccessException e) {
+			System.out.println(NO_TEAM_MSG + id);
+			team = null;
+		}
 
 		return team;
 	}
@@ -159,6 +165,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 	@Override
 	public Selection getTeamSelection(int teamId) {
+		Selection selection = null;
 		String sql = "SELECT selection_gameweek"
 				+ ", player1_id "
 				+ ", player2_id"
@@ -186,12 +193,18 @@ public class TeamRepositoryImpl implements TeamRepository {
 		
 		MapSqlParameterSource params = new MapSqlParameterSource("teamId", teamId);
 		
-		return jdbcTemplate.queryForObject(sql, params, selectionRowMapper);
+		try {
+			selection = jdbcTemplate.queryForObject(sql, params, selectionRowMapper);
+		} catch(EmptyResultDataAccessException e) {
+			System.out.println(NO_TEAM_MSG + teamId);
+		}
+		return selection;
 	}
 
 	@Override
-	public void addSelection(SelectionForm selectionForm, int teamId) {
+	public void addSelection(Selection selection, int teamId, int selectionGameweek) {
 		String sql = "INSERT INTO selection_t (team_id "
+				+ ", selection_gameweek"
 				+ ", player1_id"
 				+ ", player2_id"
 				+ ", player3_id"
@@ -214,6 +227,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 				+ ", vice_captain_id"
 				+ ", updt_dtm ) VALUES"
 				+ " (:team_id"
+				+ ", :selection_gameweek"
 				+ ", :player1_id"
 				+ ", :player2_id"
 				+ ", :player3_id"
@@ -238,18 +252,12 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("team_id", teamId);
-		for (int i = 0; i < 18; i++) {
-			SelectionFormPlayer currentPlayer = null;
-			for(SelectionFormPlayer player : selectionForm.getLineup()) {
-				if (player.getIsStarter()) {
-					params.addValue("player" + i + "_id", player.getId());
-					currentPlayer = player;
-				}
-			} 
-			selectionForm.getLineup().remove(currentPlayer);
+		for (int i = 1; i < 19; i++) {
+			params.addValue("player" + i + "_id", selection.getLineup().get(i-1).getId());
 		}
-		params.addValue("captain_id", selectionForm.getCaptain().getId());
-		params.addValue("vice_captain_id", selectionForm.getViceCaptain().getId());
+		params.addValue("captain_id", selection.getCaptainId());
+		params.addValue("vice_captain_id", selection.getViceCaptainId());
+		params.addValue("selection_gameweek", selectionGameweek);
 		
 		int rowNum = jdbcTemplate.update(sql, params);
 		System.out.println("Number of rows affected: " + rowNum);

@@ -12,10 +12,10 @@ import com.dave.fantasyfootball.form.TeamForm;
 
 public interface TeamService {
 
-	public abstract Team getTeamById(int teamId) throws MalformedURLException, JSONException, IOException;
-	public abstract void addTeam(Team team);
-	public abstract TeamForm getTeamFormById(int teamId);
-	public abstract void updateTeam(TeamForm teamForm);
-	public abstract void addSelection(SelectionForm selectionForm, int teamId);
-	public abstract Selection getTeamSelection(int teamId);
+	public Team getTeamById(int teamId) throws MalformedURLException, JSONException, IOException;
+	public void addTeam(Team team);
+	public TeamForm getTeamFormById(int teamId);
+	public void updateTeam(TeamForm teamForm);
+	public Selection getTeamSelection(int teamId);
+	public void addSelection(Selection selection, int teamId);
 }

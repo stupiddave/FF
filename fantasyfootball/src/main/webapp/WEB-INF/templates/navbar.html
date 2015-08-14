@@ -23,8 +23,8 @@
 				<ul class="nav navbar-nav navbar-right">
 					<li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Admin</a></li>
 					<li><a th:href="@{/signUp}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-					<li th:if="${#authorization.expression('!isAuthenticated()')}"><a th:href="@{/signin}">Sign in</a></li>
-					<li th:if="${#authorization.expression('isAuthenticated()')}"><a th:href="@{/logout}">Logout</a></li>
+					<li th:if="${#authorization.expression('!isAuthenticated()')}"><a th:href="@{/login}">Sign in</a></li>
+					<li th:if="${#authorization.expression('isAuthenticated()')}"><form th:action="@{/logout}" method="post"><input type="submit" value="Log out" /></form></li>
 				</ul>
 			</div>
 		</div>

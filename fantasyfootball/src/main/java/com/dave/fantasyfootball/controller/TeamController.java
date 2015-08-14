@@ -2,6 +2,7 @@ package com.dave.fantasyfootball.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dave.fantasyfootball.domain.Player;
+import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.form.SelectionForm;
@@ -40,9 +42,8 @@ public class TeamController {
 	private User user;
 
 	@Autowired
-	public TeamController(PlayerService playerService, TeamService teamService,
-			UserService userService, PropertiesService propertiesService,
-			SelectionFormService selectionFormService) {
+	public TeamController(PlayerService playerService, TeamService teamService, UserService userService,
+			PropertiesService propertiesService, SelectionFormService selectionFormService) {
 		this.playerService = playerService;
 		this.teamService = teamService;
 		this.userService = userService;
@@ -111,14 +112,53 @@ public class TeamController {
 	}
 
 	@RequestMapping(value = "/updateLineup", method = RequestMethod.POST)
-	public String processLineupUpdate(@ModelAttribute("selection") SelectionForm selectionForm) {
-		teamService.addSelection(selectionForm, user.getTeamId());
+	public String processLineupUpdate(@ModelAttribute("selection") SelectionForm selectionForm, Model model)
+			throws MalformedURLException, JSONException, IOException {
+		Selection selection = getSelectionFromForm(selectionForm);
+		teamService.addSelection(selection, user.getTeamId());
 		return "redirect:/";
 	}
 
+	private Selection getSelectionFromForm(SelectionForm selectionForm)
+			throws MalformedURLException, JSONException, IOException {
+		Selection selection = new Selection();
+		selection.setSelectionGameweek(propertiesService.getCurrentGameweek());
+		selection.setLineup(getLineupFromForm(selectionForm));
+		selection.setCaptainId(selectionForm.getCaptain());
+		selection.setViceCaptainId(selectionForm.getViceCaptain());
+		return selection;
+	}
+
+	private List<Player> getLineupFromForm(SelectionForm selectionForm)
+			throws MalformedURLException, JSONException, IOException {
+		List<Player> playerLineup = new ArrayList<Player>();
+		List<Integer> starters = selectionForm.getStarters();
+		List<Integer> subs = getSubs(selectionForm);
+		List<Integer> formLineup = new ArrayList<Integer>();
+		formLineup.addAll(starters);
+		formLineup.addAll(subs);
+		for (Integer formPlayer : formLineup) {
+			Player player = playerService.getPlayerById(formPlayer);
+			playerLineup.add(player);
+		}
+		return playerLineup;
+	}
+
+	private List<Integer> getSubs(SelectionForm selectionForm) {
+		List<Integer> subs = new ArrayList<Integer>();
+		subs.add(selectionForm.getSub1());
+		subs.add(selectionForm.getSub2());
+		subs.add(selectionForm.getSub3());
+		subs.add(selectionForm.getSub4());
+		subs.add(selectionForm.getSub5());
+		subs.add(selectionForm.getSub6());
+		subs.add(selectionForm.getSub7());
+		return subs;
+	}
+
 	@RequestMapping(value = "/myTeam", method = RequestMethod.GET)
-	public String myTeam(HttpServletRequest request, Model model) throws MalformedURLException,
-			JSONException, IOException {
+	public String myTeam(HttpServletRequest request, Model model)
+			throws MalformedURLException, JSONException, IOException {
 		if (user.getUsername() == null) {
 			userService.buildSessionUser(request.getUserPrincipal().getName());
 		}
