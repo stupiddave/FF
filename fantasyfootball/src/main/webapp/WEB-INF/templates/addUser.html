@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-<title>Team Selection</title>
+<title>Add User</title>
 </head>
 <body>
 	<section>
@@ -17,7 +17,7 @@
 		</div>
 	</section>
 	<section>
-		<form th:action="@{/addUser}" th:object="${newUser}" method="post">
+		<form th:action="@{/admin/addUser}" th:object="${newUser}" method="post">
 			<div class="form-group">
 				<label class="control-label col-lg-2 col-lg-2" for="username">Username:</label>
 				<div class="col-lg-10">

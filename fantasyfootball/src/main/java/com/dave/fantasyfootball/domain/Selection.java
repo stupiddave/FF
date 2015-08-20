@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Selection {
 
+	private int teamId;
 	private int selectionGameweek;
 	private List<Player> lineup;
 	private int captainId;
@@ -42,5 +43,13 @@ public class Selection {
 
 	public void setViceCaptainId(int viceCaptainId) {
 		this.viceCaptainId = viceCaptainId;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 }

@@ -20,5 +20,6 @@ public interface PlayerService {
 	List<Player> getSquadPlayersByPlayerIdList(List<Integer> playerIds) throws MalformedURLException, JSONException, IOException;
 	void reloadPlayerInfo();
 	List<Player> getAllPlayersInfo();
+	Player getPlayerDetail(Player player) throws MalformedURLException, JSONException, IOException;
 	
 }

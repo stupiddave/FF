@@ -8,6 +8,7 @@
 <title>My Team</title>
 </head>
 <body>
+<div th:include="navbar">navbar here</div>
 	<section>
 		<div class="jumbotron">
 			<div class="container">
@@ -41,9 +42,18 @@
 					<td th:text="${player.position}">position</td>
 					<td th:text="${player.gameweekPoints}">points</td>
 				</tr>
-				<tr><td/><td/><td/><td/><td/>
+				<tr><td th:text="'Unused Subs'"/><td/><td/><td/><td/>
 				</tr>
 				<tr th:each="player : ${matchdayTeam.subs}">
+					<td th:text="${player.id}">ID</td>
+					<td th:text="${player.firstName}">first name</td>
+					<td th:text="${player.lastName}">last name</td>
+					<td th:text="${player.position}">position</td>
+					<td th:text="${player.gameweekPoints}">points</td>
+				</tr>
+				<tr><td th:text="'Replaced Starters'"/><td/><td/><td/><td/>
+				</tr>
+				<tr th:each="player : ${matchdayTeam.replacedStarters}">
 					<td th:text="${player.id}">ID</td>
 					<td th:text="${player.firstName}">first name</td>
 					<td th:text="${player.lastName}">last name</td>

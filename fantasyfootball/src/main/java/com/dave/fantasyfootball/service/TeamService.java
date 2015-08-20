@@ -17,5 +17,7 @@ public interface TeamService {
 	public TeamForm getTeamFormById(int teamId);
 	public void updateTeam(TeamForm teamForm);
 	public Selection getTeamSelection(int teamId);
-	public void addSelection(Selection selection, int teamId);
+	public void addSelection(Selection selection);
+	public Selection getSelectionFromForm(SelectionForm selectionForm)
+			throws MalformedURLException, JSONException, IOException;
 }

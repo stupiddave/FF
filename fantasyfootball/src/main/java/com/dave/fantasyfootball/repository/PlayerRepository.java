@@ -1,7 +1,6 @@
 package com.dave.fantasyfootball.repository;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 import org.json.JSONException;
@@ -17,8 +16,10 @@ public interface PlayerRepository {
 	void addPlayer(int string, int teamId);
 	List<Integer> getPlayersByTeam(int teamId);
 	void removePlayersFromTeam(int teamId);
-	Player getPlayerById(int id) throws MalformedURLException, JSONException, IOException;
+	Player getPlayerById(int id);
 	void deleteAllPlayerInfo();
 	void addPlayerInfo(Player player);
 	List<Player> getAllPlayersInfo();
+	List<Player> getPlayersByIdList(List<Integer> ids);
+	Player getPlayerDetail(Player player) throws JSONException, IOException;
 }

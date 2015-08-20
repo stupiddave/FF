@@ -19,15 +19,4 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	@RequestMapping(value="/addUser", method=RequestMethod.GET)
-	public String addUserForm(@ModelAttribute("newUser") User newUser) {
-		return "addUser";
-	}
-	
-	@RequestMapping(value="/addUser", method=RequestMethod.POST)
-	public String processNewUser(@ModelAttribute("newUser") User newUser) {
-		userService.addUser(newUser);
-		return "redirect:/";
-	}
-
 }

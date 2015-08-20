@@ -51,8 +51,13 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public Player getPlayerById(int id) throws MalformedURLException, JSONException, IOException {
+	public Player getPlayerById(int id) {
 		return playerRepository.getPlayerById(id);
+	}
+
+	@Override
+	public Player getPlayerDetail(Player player) throws MalformedURLException, JSONException, IOException {
+		return playerRepository.getPlayerDetail(player);
 	}
 
 	public List<Player> getSquadPlayersByPlayerIdList(List<Integer> playerIds)

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,6 +30,7 @@ import com.mysql.jdbc.Driver;
 @ComponentScan(basePackages = { "com.dave.fantasyfootball" })
 @Configuration
 @PropertySource("classpath:/properties/application.properties")
+//@EnableAspectJAutoProxy
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override
@@ -99,4 +101,5 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		System.out.println(dataSource.getUrl());
 		return dataSource;
 	}
+	
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.dave.fantasyfootball.domain.MatchdayTeam;
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Team;
+import com.dave.fantasyfootball.repository.TeamRepository;
 import com.dave.fantasyfootball.service.MatchdayTeamService;
 import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.utils.PlayerPositionComparator;
@@ -21,10 +22,12 @@ import com.dave.fantasyfootball.utils.PlayerPositionComparator;
 public class MatchdayTeamServiceImpl implements MatchdayTeamService {
 
 	public PlayerService playerService;
+	public TeamRepository teamRepository;
 
 	@Autowired
-	public MatchdayTeamServiceImpl(PlayerService playerService) {
+	public MatchdayTeamServiceImpl(PlayerService playerService, TeamRepository teamRepository) {
 		this.playerService = playerService;
+		this.teamRepository = teamRepository;
 	}
 
 	@Override
@@ -64,11 +67,25 @@ public class MatchdayTeamServiceImpl implements MatchdayTeamService {
 			MalformedURLException, JSONException, IOException {
 
 		List<Player> lineup = team.getSelection().getLineup();
+		for(Player player : lineup) {
+			playerService.getPlayerDetail(player);
+		}
 		List<Player> starters = new ArrayList<Player>(lineup.subList(0, 11));
 		List<Player> subs = new ArrayList<Player>(lineup.subList(11, lineup.size()));
-
+		
 		MatchdayTeam selectedTeam = new MatchdayTeam(team.getId(), starters, subs);
 		return selectedTeam;
+	}
+
+	@Override
+	public void commitWeeklyScores(Team team) throws NumberFormatException, MalformedURLException, JSONException, IOException {
+		MatchdayTeam matchdayTeam = buildMatchDayTeam(team);
+		int teamScore = 0;
+		for(Player player : matchdayTeam.getStarters()) {
+			teamScore = teamScore + player.getGameweekPoints();
+		}
+		teamScore = teamScore + matchdayTeam.getCaptain().getGameweekPoints();
+		teamRepository.commitTeamScore(team.getId(), teamScore);
 	}
 
 }

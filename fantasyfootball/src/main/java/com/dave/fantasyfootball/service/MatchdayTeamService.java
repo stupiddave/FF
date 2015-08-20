@@ -11,4 +11,6 @@ import com.dave.fantasyfootball.domain.Team;
 public interface MatchdayTeamService {
 
 	public abstract MatchdayTeam buildMatchDayTeam(Team team) throws NumberFormatException, MalformedURLException, JSONException, IOException;
+
+	public abstract void commitWeeklyScores(Team team) throws NumberFormatException, MalformedURLException, JSONException, IOException;
 }

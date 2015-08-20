@@ -48,5 +48,4 @@ public class MatchdayTeamController {
 		model.addAttribute("team", team);
 		return "points";
 	}
-
 }

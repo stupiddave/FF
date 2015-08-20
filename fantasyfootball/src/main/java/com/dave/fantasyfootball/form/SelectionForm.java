@@ -20,11 +20,13 @@ public class SelectionForm {
 	private int sub7;
 	private int captain;
 	private int viceCaptain;
+	private int teamId;
 
 	public SelectionForm() {
 	}
 
 	public SelectionForm(Team team, SelectionFormService selectionFormPlayerService) {
+		this.teamId = team.getId();
 		this.selectionFormPlayerService = selectionFormPlayerService;
 		this.starters = selectionFormPlayerService.getStartersFromTeam(team);
 		this.sub1 = selectionFormPlayerService.getSubsFromTeam(team).get(0);
@@ -124,5 +126,13 @@ public class SelectionForm {
 
 	public void setViceCaptain(int viceCaptain) {
 		this.viceCaptain = viceCaptain;
+	}
+
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int teamId) {
+		this.teamId = teamId;
 	}
 }

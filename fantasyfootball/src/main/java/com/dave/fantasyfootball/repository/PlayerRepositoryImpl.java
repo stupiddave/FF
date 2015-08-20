@@ -2,6 +2,8 @@ package com.dave.fantasyfootball.repository;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -23,7 +26,7 @@ import com.dave.fantasyfootball.utils.Position;
 @Repository
 public class PlayerRepositoryImpl implements PlayerRepository {
 
-	private static final int TOTAL_PLAYERS = 527;
+	private static final int TOTAL_PLAYERS = 560;
 
 	public PlayerRepositoryImpl() {
 	}
@@ -45,7 +48,8 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 			try {
 				player = getPlayerById(i);
 			} catch (Exception e) {
-				System.out.println("Error getting player with id " + i);
+				System.err.println("Error getting player with id " + i);
+				break;
 			}
 			if (player != null) {
 				allPlayers.add(player);
@@ -100,7 +104,47 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	}
 
 	@Override
-	public Player getPlayerById(int id) throws JSONException, IOException {
+	public Player getPlayerById(int id) {
+
+		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t WHERE id = :id";
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("id", id);
+		Player player = jdbcTemplate.queryForObject(sql, params, new RowMapper<Player>() {
+			public Player mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Player player = new Player();
+				player.setId(id);
+				player.setFirstName(rs.getString("first_name"));
+				player.setLastName(rs.getString("second_name"));
+				player.setWebName(rs.getString("web_name"));
+				player.setClub(rs.getString("club"));
+				player.setPosition(rs.getString("position"));
+				return player;
+			}
+		});
+		return player;
+	}
+
+	@Override
+	public List<Player> getPlayersByIdList(List<Integer> ids) {
+		List<Player> players = new ArrayList<Player>();
+		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t WHERE id IN (:ids)";
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("ids", ids);
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+		for (Map<String, Object> row : rows) {
+			Player player = new Player();
+			player.setId((Integer) row.get("id"));
+			player.setFirstName((String) row.get("first_name"));
+			player.setLastName((String) row.get("second_name"));
+			player.setWebName((String) row.get("web_name"));
+			player.setClub((String) row.get("club"));
+			player.setPosition((String) row.get("position"));
+			players.add(player);
+		}
+		return players;
+	}
+
+	public Player getPlayerDetailById(int id) throws JSONException, IOException {
 		Player player = new Player();
 
 		JSONObject playerJson = getPlayerJson(id);
@@ -112,11 +156,11 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 		player.setLastName(playerJson.getString("second_name"));
 		player.setWebName(playerJson.getString("web_name"));
 		player.setPosition(playerJson.getString("type_name"));
-		player.setGameweekPoints(playerJson.getInt("event_total"));
-		player.setGameweekEvent(gameweekEvent);
 		player.setClub(playerJson.getString("team_name"));
 		player.setImageFile(playerJson.getString("photo"));
 		player.setMinutesPlayed();
+		player.setGameweekPoints(playerJson.getInt("event_total"));
+		player.setGameweekEvent(gameweekEvent);
 		player.setNextOpposition(playerJson.getString("current_fixture"));
 		return player;
 	}
@@ -124,16 +168,16 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	public JSONObject getPlayerJson(int id) throws JSONException, IOException {
 		JSONObject playerJson;
 		try {
-			playerJson = new JSONObject(
-					IOUtils.toString(new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream()));
+			playerJson = new JSONObject(IOUtils.toString(
+					new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream(), "UTF-8"));
 		} catch (IOException e) {
 			try {
-				playerJson = new JSONObject(IOUtils
-						.toString(new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream()));
+				playerJson = new JSONObject(IOUtils.toString(
+						new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream(), "UTF-8"));
 			} catch (IOException e1) {
 				try {
-					playerJson = new JSONObject(IOUtils
-							.toString(new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream()));
+					playerJson = new JSONObject(IOUtils.toString(
+							new URL("http://fantasy.premierleague.com/web/api/elements/" + id).openStream(), "UTF-8"));
 				} catch (IOException e2) {
 					e2.printStackTrace();
 					throw new IOException(
@@ -180,5 +224,15 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 			playersInfo.add(player);
 		}
 		return playersInfo;
+	}
+
+	@Override
+	public Player getPlayerDetail(Player player) throws JSONException, IOException {
+		JSONObject playerJson = getPlayerJson(player.getId());
+		player.setGameweekEvent(playerJson.getJSONArray("event_explain"));
+		player.setMinutesPlayed();
+		player.setGameweekPoints(playerJson.getInt("event_total"));
+		player.setNextOpposition(playerJson.getString("current_fixture"));
+		return player;
 	}
 }

@@ -202,7 +202,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 	}
 
 	@Override
-	public void addSelection(Selection selection, int teamId, int selectionGameweek) {
+	public void addSelection(Selection selection, int selectionGameweek) {
 		String sql = "INSERT INTO selection_t (team_id "
 				+ ", selection_gameweek"
 				+ ", player1_id"
@@ -251,7 +251,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 				+ ", CURRENT_TIMESTAMP) ";
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
-		params.addValue("team_id", teamId);
+		params.addValue("team_id", selection.getTeamId());
 		for (int i = 1; i < 19; i++) {
 			params.addValue("player" + i + "_id", selection.getLineup().get(i-1).getId());
 		}
@@ -261,5 +261,14 @@ public class TeamRepositoryImpl implements TeamRepository {
 		
 		int rowNum = jdbcTemplate.update(sql, params);
 		System.out.println("Number of rows affected: " + rowNum);
+	}
+
+	@Override
+	public void commitTeamScore(int teamId, int teamScore) {
+		String sql = "UPDATE team_t SET team_total_points = team_total_points + :teamScore WHERE team_id = :teamId";
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("teamId", teamId);
+		params.addValue("teamScore", teamScore);
+		jdbcTemplate.update(sql, params);
 	}
 }

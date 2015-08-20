@@ -2,6 +2,7 @@ package com.dave.fantasyfootball.service.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -75,8 +76,48 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void addSelection(Selection selection, int teamId) {
-		teamRepository.addSelection(selection, teamId, propertiesService.getCurrentGameweek());
+	public void addSelection(Selection selection) {
+		teamRepository.addSelection(selection, propertiesService.getCurrentGameweek());
 	}
+
+	@Override
+	public Selection getSelectionFromForm(SelectionForm selectionForm)
+			throws MalformedURLException, JSONException, IOException {
+		Selection selection = new Selection();
+		selection.setTeamId(selectionForm.getTeamId());
+		selection.setSelectionGameweek(propertiesService.getCurrentGameweek());
+		selection.setLineup(getLineupFromForm(selectionForm));
+		selection.setCaptainId(selectionForm.getCaptain());
+		selection.setViceCaptainId(selectionForm.getViceCaptain());
+		return selection;
+	}
+	
+	private List<Player> getLineupFromForm(SelectionForm selectionForm)
+			throws MalformedURLException, JSONException, IOException {
+		List<Player> playerLineup = new ArrayList<Player>();
+		List<Integer> starters = selectionForm.getStarters();
+		List<Integer> subs = getSubs(selectionForm);
+		List<Integer> formLineup = new ArrayList<Integer>();
+		formLineup.addAll(starters);
+		formLineup.addAll(subs);
+		for (Integer formPlayer : formLineup) {
+			Player player = playerService.getPlayerById(formPlayer);
+			playerLineup.add(player);
+		}
+		return playerLineup;
+	}
+
+	private List<Integer> getSubs(SelectionForm selectionForm) {
+		List<Integer> subs = new ArrayList<Integer>();
+		subs.add(selectionForm.getSub1());
+		subs.add(selectionForm.getSub2());
+		subs.add(selectionForm.getSub3());
+		subs.add(selectionForm.getSub4());
+		subs.add(selectionForm.getSub5());
+		subs.add(selectionForm.getSub6());
+		subs.add(selectionForm.getSub7());
+		return subs;
+	}
+
 
 }

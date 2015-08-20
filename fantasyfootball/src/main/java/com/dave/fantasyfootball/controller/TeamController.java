@@ -2,16 +2,18 @@ package com.dave.fantasyfootball.controller;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +25,13 @@ import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
+import com.dave.fantasyfootball.form.validator.SelectionFormValidator;
 import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.service.PropertiesService;
 import com.dave.fantasyfootball.service.SelectionFormService;
 import com.dave.fantasyfootball.service.TeamService;
 import com.dave.fantasyfootball.service.UserService;
+import com.dave.fantasyfootball.utils.PlayerPositionComparator;
 
 @Controller
 public class TeamController {
@@ -37,18 +41,20 @@ public class TeamController {
 	private UserService userService;
 	private PropertiesService propertiesService;
 	private SelectionFormService selectionFormService;
+	private SelectionFormValidator selectionFormValidator;
 
 	@Autowired
 	private User user;
 
 	@Autowired
 	public TeamController(PlayerService playerService, TeamService teamService, UserService userService,
-			PropertiesService propertiesService, SelectionFormService selectionFormService) {
+			PropertiesService propertiesService, SelectionFormService selectionFormService, SelectionFormValidator selectionFormValidator) {
 		this.playerService = playerService;
 		this.teamService = teamService;
 		this.userService = userService;
 		this.propertiesService = propertiesService;
 		this.selectionFormService = selectionFormService;
+		this.selectionFormValidator = selectionFormValidator;
 	}
 
 	@RequestMapping("/{TeamId}")
@@ -60,30 +66,7 @@ public class TeamController {
 		return "team";
 	}
 
-	@RequestMapping(value = "/addTeam", method = RequestMethod.GET)
-	public String addTeam(Model model, @ModelAttribute("newTeam") TeamForm newTeam) {
-		List<Player> allPlayersInfo = playerService.getAllPlayersInfo();
-		model.addAttribute("allPlayers", allPlayersInfo);
-		return "addTeam";
-
-	}
-
-	@Transactional
-	@RequestMapping(value = "/addTeam", method = RequestMethod.POST)
-	public String processNewTeam(@ModelAttribute("newTeam") TeamForm newTeam) {
-		System.out.println("New team name is: " + newTeam.getTeamName());
-
-		playerService.addTeamPlayers(newTeam);
-
-		Team team = new Team();
-		team.setId(newTeam.getTeamId());
-		team.setName(newTeam.getTeamName());
-		team.setTotalPoints(newTeam.getTeamPoints());
-		teamService.addTeam(team);
-		return "redirect:/";
-	}
-
-	@RequestMapping(value = "/updateTeam/{teamId}", method = RequestMethod.GET)
+//	@RequestMapping(value = "/updateTeam/{teamId}", method = RequestMethod.GET)
 	public String updateTeam(@PathVariable("teamId") int teamId, Model model) {
 		TeamForm teamForm = new TeamForm();
 		teamForm = teamService.getTeamFormById(teamId);
@@ -91,7 +74,7 @@ public class TeamController {
 		return "updateTeam";
 	}
 
-	@RequestMapping(value = "/updateTeam", method = RequestMethod.POST)
+//	@RequestMapping(value = "/updateTeam", method = RequestMethod.POST)
 	public String processTeamUpdate(@ModelAttribute("teamForm") TeamForm teamForm) {
 		teamService.updateTeam(teamForm);
 		return "redirect:/";
@@ -104,56 +87,32 @@ public class TeamController {
 			userService.buildSessionUser(request.getUserPrincipal().getName());
 		}
 		System.out.println("Current user is: " + user.getFirstName());
-		Team team = teamService.getTeamById(user.getTeamId());
+		Team team = getTeamByUser();
 		model.addAttribute("team", team);
 		SelectionForm selectionForm = new SelectionForm(team, selectionFormService);
+		selectionForm.setTeamId(team.getId());
+		Collections.sort(team.getSquad(), new PlayerPositionComparator());
 		model.addAttribute("selection", selectionForm);
 		return "updateLineup";
 	}
 
+	private Team getTeamByUser() throws MalformedURLException, IOException {
+		return teamService.getTeamById(user.getTeamId());
+	}
+
 	@RequestMapping(value = "/updateLineup", method = RequestMethod.POST)
-	public String processLineupUpdate(@ModelAttribute("selection") SelectionForm selectionForm, Model model)
+	public String processLineupUpdate(@Valid @ModelAttribute("selection") SelectionForm selectionForm, BindingResult result, Model model)
 			throws MalformedURLException, JSONException, IOException {
-		Selection selection = getSelectionFromForm(selectionForm);
-		teamService.addSelection(selection, user.getTeamId());
-		return "redirect:/";
-	}
-
-	private Selection getSelectionFromForm(SelectionForm selectionForm)
-			throws MalformedURLException, JSONException, IOException {
-		Selection selection = new Selection();
-		selection.setSelectionGameweek(propertiesService.getCurrentGameweek());
-		selection.setLineup(getLineupFromForm(selectionForm));
-		selection.setCaptainId(selectionForm.getCaptain());
-		selection.setViceCaptainId(selectionForm.getViceCaptain());
-		return selection;
-	}
-
-	private List<Player> getLineupFromForm(SelectionForm selectionForm)
-			throws MalformedURLException, JSONException, IOException {
-		List<Player> playerLineup = new ArrayList<Player>();
-		List<Integer> starters = selectionForm.getStarters();
-		List<Integer> subs = getSubs(selectionForm);
-		List<Integer> formLineup = new ArrayList<Integer>();
-		formLineup.addAll(starters);
-		formLineup.addAll(subs);
-		for (Integer formPlayer : formLineup) {
-			Player player = playerService.getPlayerById(formPlayer);
-			playerLineup.add(player);
+		selectionFormValidator.validate(selectionForm, result);
+		if(result.hasErrors()) {
+			Team team = getTeamByUser();
+			Collections.sort(team.getSquad(), new PlayerPositionComparator());
+			model.addAttribute("team", team);
+			return "/updateLineup";
 		}
-		return playerLineup;
-	}
-
-	private List<Integer> getSubs(SelectionForm selectionForm) {
-		List<Integer> subs = new ArrayList<Integer>();
-		subs.add(selectionForm.getSub1());
-		subs.add(selectionForm.getSub2());
-		subs.add(selectionForm.getSub3());
-		subs.add(selectionForm.getSub4());
-		subs.add(selectionForm.getSub5());
-		subs.add(selectionForm.getSub6());
-		subs.add(selectionForm.getSub7());
-		return subs;
+		Selection selection = teamService.getSelectionFromForm(selectionForm);
+		teamService.addSelection(selection);
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/myTeam", method = RequestMethod.GET)
@@ -162,7 +121,7 @@ public class TeamController {
 		if (user.getUsername() == null) {
 			userService.buildSessionUser(request.getUserPrincipal().getName());
 		}
-		Team team = teamService.getTeamById(user.getTeamId());
+		Team team = getTeamByUser();
 		model.addAttribute("team", team);
 		model.addAttribute("user", user);
 		return "team";

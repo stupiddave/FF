@@ -14,5 +14,6 @@ public interface TeamRepository {
 	void updateTeam(Team team);
 	Selection getTeamSelection(int teamId);
 	List<Integer> getPlayerIdsByTeam(int teamId);
-	void addSelection(Selection selection, int teamId, int selectionGameweek);
+	void addSelection(Selection selection, int selectionGameweek);
+	void commitTeamScore(int teamId, int teamScore);
 }

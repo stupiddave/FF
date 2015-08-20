@@ -110,8 +110,6 @@ public class Player implements Serializable {
 			
 			if ("Minutes played".equals(gameweekEvent.getJSONArray(i).getString(0))) {
 				this.minutesPlayed = gameweekEvent.getJSONArray(i).getInt(1);
-			} else {
-				this.minutesPlayed = 0;
 			}
 		}
 	}
