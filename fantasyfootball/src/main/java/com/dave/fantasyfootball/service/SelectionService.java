@@ -8,5 +8,6 @@ import com.dave.fantasyfootball.domain.Selection;
 public interface SelectionService {
 
 	public void insertSelection(Selection selection);
+
 	public List<Player> getLatestLineup(int teamId);
 }

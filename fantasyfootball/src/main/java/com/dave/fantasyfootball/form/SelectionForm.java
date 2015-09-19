@@ -21,6 +21,7 @@ public class SelectionForm {
 	private int captain;
 	private int viceCaptain;
 	private int teamId;
+	private int currentGameweek;
 
 	public SelectionForm() {
 	}
@@ -29,15 +30,24 @@ public class SelectionForm {
 		this.teamId = team.getId();
 		this.selectionFormPlayerService = selectionFormPlayerService;
 		this.starters = selectionFormPlayerService.getStartersFromTeam(team);
-		this.sub1 = selectionFormPlayerService.getSubsFromTeam(team).get(0);
-		this.sub2 = selectionFormPlayerService.getSubsFromTeam(team).get(1);
-		this.sub3 = selectionFormPlayerService.getSubsFromTeam(team).get(2);
-		this.sub4 = selectionFormPlayerService.getSubsFromTeam(team).get(3);
-		this.sub5 = selectionFormPlayerService.getSubsFromTeam(team).get(4);
-		this.sub6 = selectionFormPlayerService.getSubsFromTeam(team).get(5);
-		this.sub7 = selectionFormPlayerService.getSubsFromTeam(team).get(6);
-		this.captain = team.getSelection().getCaptainId();
-		this.viceCaptain = team.getSelection().getViceCaptainId();
+		this.sub1 = selectionFormPlayerService	.getSubsFromTeam(team)
+												.get(0);
+		this.sub2 = selectionFormPlayerService	.getSubsFromTeam(team)
+												.get(1);
+		this.sub3 = selectionFormPlayerService	.getSubsFromTeam(team)
+												.get(2);
+		this.sub4 = selectionFormPlayerService	.getSubsFromTeam(team)
+												.get(3);
+		this.sub5 = selectionFormPlayerService	.getSubsFromTeam(team)
+												.get(4);
+		this.sub6 = selectionFormPlayerService	.getSubsFromTeam(team)
+												.get(5);
+		this.sub7 = selectionFormPlayerService	.getSubsFromTeam(team)
+												.get(6);
+		this.captain = team	.getSelection()
+							.getCaptainId();
+		this.viceCaptain = team	.getSelection()
+								.getViceCaptainId();
 	}
 
 	public SelectionFormService getSelectionFormPlayerService() {
@@ -134,5 +144,13 @@ public class SelectionForm {
 
 	public void setTeamId(int teamId) {
 		this.teamId = teamId;
+	}
+
+	public int getCurrentGameweek() {
+		return currentGameweek;
+	}
+
+	public void setCurrentGameweek(int currentGameweek) {
+		this.currentGameweek = currentGameweek;
 	}
 }

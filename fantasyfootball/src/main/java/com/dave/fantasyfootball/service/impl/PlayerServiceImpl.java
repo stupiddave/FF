@@ -21,7 +21,7 @@ public class PlayerServiceImpl implements PlayerService {
 	private PlayerRepository playerRepository;
 
 	public List<Player> getAllPlayers() {
-		return playerRepository.getAllPlayers();
+		return playerRepository.getAllPlayersDetail();
 	}
 
 	@Override
@@ -38,8 +38,11 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public void addTeamPlayers(TeamForm teamForm) {
 		int teamId = teamForm.getTeamId();
-		for (int i = 0; i < teamForm.getPlayerIds().size(); i++) {
-			playerRepository.addPlayer(Integer.parseInt(teamForm.getPlayerIds().get(i)), teamId);
+		for (int i = 0; i < teamForm.getPlayerIds()
+									.size(); i++) {
+			playerRepository.addPlayer(Integer.parseInt(teamForm.getPlayerIds()
+																.get(i)),
+					teamId);
 		}
 	}
 
@@ -80,6 +83,11 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public List<Player> getAllPlayersInfo() {
-		return playerRepository.getAllPlayersInfo();
+		return playerRepository.getAllPlayers();
+	}
+
+	@Override
+	public List<Player> getSquadPlayersByTeamId(int teamId) {
+		return playerRepository.getPlayersByTeamId(teamId);
 	}
 }

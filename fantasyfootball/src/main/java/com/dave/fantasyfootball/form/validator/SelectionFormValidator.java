@@ -54,8 +54,8 @@ public class SelectionFormValidator implements Validator {
 		startersAndSubsList.add(selectionForm.getSub6());
 		startersAndSubsList.add(selectionForm.getSub7());
 		Set<Integer> startersAndSubsSet = new HashSet<Integer>(startersAndSubsList);
-		
-		if(startersAndSubsSet.size() < startersAndSubsList.size()) {
+
+		if (startersAndSubsSet.size() < startersAndSubsList.size()) {
 			dupeExists = true;
 		}
 		return dupeExists;

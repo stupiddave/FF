@@ -1,12 +1,10 @@
 package com.dave.fantasyfootball.form;
 
-
 public class SelectionFormPlayer {
 
 	int id;
 	boolean isStarter;
 	String subRank;
-	
 
 	public int getId() {
 		return id;

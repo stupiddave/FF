@@ -15,11 +15,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.dave.fantasyfootball.domain.GameweekEvent;
 import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.utils.Position;
 
@@ -39,14 +41,14 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Override
-	public List<Player> getAllPlayers() {
+	public List<Player> getAllPlayersDetail() {
 		System.out.println("Getting all players...");
 		List<Player> allPlayers = new ArrayList<Player>();
 		for (int i = 1; i < TOTAL_PLAYERS; i++) {
 			System.out.println("Getting player with id " + i);
 			Player player = null;
 			try {
-				player = getPlayerById(i);
+				player = getPlayerDetail(i);
 			} catch (Exception e) {
 				System.err.println("Error getting player with id " + i);
 				break;
@@ -73,7 +75,8 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	public List<Player> getPlayersByPosition(Position position) {
 		List<Player> playersByPosition = new ArrayList<Player>();
 		for (Player player : getAllPlayers()) {
-			if (player.getPosition().equals(position)) {
+			if (player	.getPosition()
+						.equals(position)) {
 				playersByPosition.add(player);
 			}
 		}
@@ -90,12 +93,6 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	}
 
 	@Override
-	public List<Integer> getPlayersByTeam(int teamId) {
-
-		return null;
-	}
-
-	@Override
 	public void removePlayersFromTeam(int teamId) {
 		String sql = "DELETE FROM player_t " + "WHERE team_id = :teamId";
 
@@ -104,6 +101,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	}
 
 	@Override
+	@Cacheable("playerCache")
 	public Player getPlayerById(int id) {
 
 		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t WHERE id = :id";
@@ -144,7 +142,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 		return players;
 	}
 
-	public Player getPlayerDetailById(int id) throws JSONException, IOException {
+	public Player getPlayerDetail(int id) throws JSONException, IOException {
 		Player player = new Player();
 
 		JSONObject playerJson = getPlayerJson(id);
@@ -158,9 +156,9 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 		player.setPosition(playerJson.getString("type_name"));
 		player.setClub(playerJson.getString("team_name"));
 		player.setImageFile(playerJson.getString("photo"));
+		player.setGameweekEvent(mapGameweekEvent(gameweekEvent));
 		player.setMinutesPlayed();
 		player.setGameweekPoints(playerJson.getInt("event_total"));
-		player.setGameweekEvent(gameweekEvent);
 		player.setNextOpposition(playerJson.getString("current_fixture"));
 		return player;
 	}
@@ -209,7 +207,8 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	}
 
 	@Override
-	public List<Player> getAllPlayersInfo() {
+	@Cacheable("allPlayerCache")
+	public List<Player> getAllPlayers() {
 		List<Player> playersInfo = new ArrayList<Player>();
 		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t";
 		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, new MapSqlParameterSource());
@@ -229,10 +228,41 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	@Override
 	public Player getPlayerDetail(Player player) throws JSONException, IOException {
 		JSONObject playerJson = getPlayerJson(player.getId());
-		player.setGameweekEvent(playerJson.getJSONArray("event_explain"));
+		player.setGameweekEvent(mapGameweekEvent(playerJson.getJSONArray("event_explain")));
 		player.setMinutesPlayed();
 		player.setGameweekPoints(playerJson.getInt("event_total"));
 		player.setNextOpposition(playerJson.getString("current_fixture"));
 		return player;
+	}
+
+	private List<GameweekEvent> mapGameweekEvent(JSONArray eventExplain) {
+		List<GameweekEvent> gameweekEvents = new ArrayList<GameweekEvent>();
+		for (int i = 0; i < eventExplain.length(); i++) {
+			JSONArray eventItem = eventExplain.getJSONArray(i);
+			GameweekEvent gameweekEvent = new GameweekEvent(eventItem.getString(0), eventItem.getInt(1),
+					eventItem.getInt(2));
+			gameweekEvents.add(gameweekEvent);
+		}
+		return gameweekEvents;
+	}
+
+	@Override
+	public List<Player> getPlayersByTeamId(int teamId) {
+		List<Player> playersInfo = new ArrayList<Player>();
+		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t pi INNER JOIN player_t p ON p.player_id = pi.id WHERE p.team_id = :teamId";
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("teamId", teamId);
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+		for (Map<String, Object> row : rows) {
+			Player player = new Player();
+			player.setId((Integer) row.get("id"));
+			player.setFirstName((String) row.get("first_name"));
+			player.setLastName((String) row.get("second_name"));
+			player.setWebName((String) row.get("web_name"));
+			player.setClub((String) row.get("club"));
+			player.setPosition((String) row.get("position"));
+			playersInfo.add(player);
+		}
+		return playersInfo;
 	}
 }

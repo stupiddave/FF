@@ -27,29 +27,28 @@ public class TeamServiceImpl implements TeamService {
 	private PropertiesService propertiesService;
 
 	@Autowired
-	public TeamServiceImpl(PlayerService playerService,
-			TeamRepository teamRepository, PropertiesService propertiesService) {
+	public TeamServiceImpl(PlayerService playerService, TeamRepository teamRepository,
+			PropertiesService propertiesService) {
 		this.playerService = playerService;
 		this.teamRepository = teamRepository;
 		this.propertiesService = propertiesService;
 	}
 
 	@Override
-	public Team getTeamById(int teamId) throws MalformedURLException,
-			JSONException, IOException {
+	public Team getTeamById(int teamId) throws MalformedURLException, JSONException, IOException {
+		int gameweek = propertiesService.getSelectionGameweek() - 1;
 		Team team = teamRepository.getTeamInfoById(teamId);
-		team.setSelection(getTeamSelection(teamId));
-		List<Player> squad = playerService
-				.getSquadPlayersByPlayerIdList(teamRepository
-						.getPlayerIdsByTeam(teamId));
+		team.setSelection(getTeamSelection(teamId, gameweek));
+		List<Player> squad = playerService.getSquadPlayersByTeamId(teamId);
 		team.setSquad(squad);
 
 		return team;
 	}
 
-	public Selection getTeamSelection(int teamId) {
+	@Override
+	public Selection getTeamSelection(int teamId, int gameweek) {
 
-		return teamRepository.getTeamSelection(teamId);
+		return teamRepository.getTeamSelection(teamId, gameweek);
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public void addSelection(Selection selection) {
-		teamRepository.addSelection(selection, propertiesService.getCurrentGameweek());
+		teamRepository.addSelection(selection, propertiesService.getSelectionGameweek());
 	}
 
 	@Override
@@ -85,13 +84,13 @@ public class TeamServiceImpl implements TeamService {
 			throws MalformedURLException, JSONException, IOException {
 		Selection selection = new Selection();
 		selection.setTeamId(selectionForm.getTeamId());
-		selection.setSelectionGameweek(propertiesService.getCurrentGameweek());
+		selection.setSelectionGameweek(propertiesService.getSelectionGameweek());
 		selection.setLineup(getLineupFromForm(selectionForm));
 		selection.setCaptainId(selectionForm.getCaptain());
 		selection.setViceCaptainId(selectionForm.getViceCaptain());
 		return selection;
 	}
-	
+
 	private List<Player> getLineupFromForm(SelectionForm selectionForm)
 			throws MalformedURLException, JSONException, IOException {
 		List<Player> playerLineup = new ArrayList<Player>();
@@ -119,5 +118,9 @@ public class TeamServiceImpl implements TeamService {
 		return subs;
 	}
 
+	@Override
+	public List<Team> getTeamStandings() {
+		return teamRepository.getTeamStandings();
+	}
 
 }

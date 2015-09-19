@@ -17,7 +17,8 @@ public class SelectionFormServiceImpl implements SelectionFormService {
 		List<Integer> starters = new ArrayList<Integer>();
 		List<Player> playerLineup = new ArrayList<Player>();
 		if (team.getSelection() != null) {
-			playerLineup = team.getSelection().getLineup();
+			playerLineup = team	.getSelection()
+								.getLineup();
 		} else {
 			playerLineup = team.getSquad();
 		}
@@ -35,13 +36,15 @@ public class SelectionFormServiceImpl implements SelectionFormService {
 		List<Integer> subs = new ArrayList<Integer>();
 		List<Player> playerLineup = new ArrayList<Player>();
 		if (team.getSelection() != null) {
-			playerLineup = team.getSelection().getLineup();
+			playerLineup = team	.getSelection()
+								.getLineup();
 		} else {
 			playerLineup = team.getSquad();
 		}
 
 		for (int i = 11; i < playerLineup.size(); i++) {
-			subs.add(playerLineup.get(i).getId());
+			subs.add(playerLineup	.get(i)
+									.getId());
 		}
 
 		return subs;

@@ -14,8 +14,6 @@ import com.dave.fantasyfootball.domain.User;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-//	@Autowired
-//	private User user;
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Autowired
@@ -24,7 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	private RowMapper<User> userRowMapper = new RowMapper<User>() {
-		
+
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			User user = new User();
@@ -43,10 +41,8 @@ public class UserRepositoryImpl implements UserRepository {
 
 	@Override
 	public void addUser(User user) {
-		String sql = "INSERT INTO user_t (username	, password	"
-				+ ", first_name	, last_name	, email	, team_id	"
-				+ ", user_type	, updt_dtm	) VALUES (:username"
-				+ ", :password, :firstName, :lastName, :email"
+		String sql = "INSERT INTO user_t (username	, password	" + ", first_name	, last_name	, email	, team_id	"
+				+ ", user_type	, updt_dtm	) VALUES (:username" + ", :password, :firstName, :lastName, :email"
 				+ ", :teamId, :userType, CURRENT_TIMESTAMP)";
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("username", user.getUsername());
@@ -61,12 +57,10 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 
 	public User getUserByUsername(String username) {
-		String sql = "SELECT username, password, first_name"
-				+ ", last_name, email, team_id, user_type "
+		String sql = "SELECT username, password, first_name" + ", last_name, email, team_id, user_type "
 				+ "FROM user_t WHERE username = :username";
 
-		User user = jdbcTemplate.queryForObject(sql, new MapSqlParameterSource(
-				"username", username), userRowMapper);
+		User user = jdbcTemplate.queryForObject(sql, new MapSqlParameterSource("username", username), userRowMapper);
 
 		return user;
 	}

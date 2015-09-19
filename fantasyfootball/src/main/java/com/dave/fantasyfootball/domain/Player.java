@@ -1,8 +1,8 @@
 package com.dave.fantasyfootball.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class Player implements Serializable {
 	private String club;
 	private String position;
 	private int gameweekPoints;
-	private JSONArray gameweekEvent;
+	private List<GameweekEvent> gameweekEvents;
 	private String imageFileId;
 	private int minutesPlayed;
 	private String nextOpposition;
@@ -73,8 +73,8 @@ public class Player implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Player [id=" + id + ", webName=" + webName + ", club=" + club
-				+ ", position=" + position.toString() + "]";
+		return "Player [id=" + id + ", webName=" + webName + ", club=" + club + ", position=" + position.toString()
+				+ "]";
 	}
 
 	public int getGameweekPoints() {
@@ -85,12 +85,12 @@ public class Player implements Serializable {
 		this.gameweekPoints = gameweekPoints;
 	}
 
-	public JSONArray getGameweekEvent() {
-		return gameweekEvent;
+	public List<GameweekEvent> getGameweekEvents() {
+		return gameweekEvents;
 	}
 
-	public void setGameweekEvent(JSONArray gameweekEvent) {
-		this.gameweekEvent = gameweekEvent;
+	public void setGameweekEvent(List<GameweekEvent> gameweekEvents) {
+		this.gameweekEvents = gameweekEvents;
 	}
 
 	public String getImageFile() {
@@ -106,10 +106,12 @@ public class Player implements Serializable {
 	}
 
 	public void setMinutesPlayed() throws JSONException {
-		for (int i = 0; i < gameweekEvent.length(); i++) {
-			
-			if ("Minutes played".equals(gameweekEvent.getJSONArray(i).getString(0))) {
-				this.minutesPlayed = gameweekEvent.getJSONArray(i).getInt(1);
+		for (int i = 0; i < gameweekEvents.size(); i++) {
+
+			if ("Minutes played".equals(gameweekEvents	.get(i)
+														.getDescription())) {
+				this.minutesPlayed = gameweekEvents	.get(i)
+													.getOccurrences();
 			}
 		}
 	}

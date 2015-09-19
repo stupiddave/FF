@@ -2,32 +2,39 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+<link rel='stylesheet' href='webjars/bootstrap/3.3.5/css/bootstrap.min.css'
+	th:href="@{webjars/bootstrap/3.3.5/css/bootstrap.min.css}" />
 </head>
 <body>
-	<nav th:fragment="navbar" class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">HFL</a>
+	<div th:fragment="navbar">
+		<nav class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#hflNavbar">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">HFL</a>
+				</div>
+				<div class="collapse navbar-collapse" id="hflNavbar">
+					<ul class="nav navbar-nav">
+						<li><a href="/home" th:href="@{/home}">Home</a></li>
+						<li><a href="/latestPoints" th:href="@{/latestPoints}">Team</a></li>
+						<li><a href="/updateLineup" th:href="@{/updateLineup}">Selection</a></li>
+						<li><a href="/standings" th:href="@{/standings}">Standings</a></li>
+						<!-- 					<li><a href="#">User</a></li> -->
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Admin</a></li>
+						<!-- 					<li><a th:href="@{/signUp}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
+						<li th:if="${#authorization.expression('!isAuthenticated()')}"><a th:href="@{/login}">Sign in</a></li>
+						<li th:if="${#authorization.expression('isAuthenticated()')}"><form th:action="@{/logout}" method="post">
+								<input type="submit" value="Log out" />
+							</form></li>
+					</ul>
+				</div>
 			</div>
-			<div class="collapse navbar-collapse" id="hflNavbar">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="@{/}">Home</a></li>
-					<li><a th:href="@{/latestPoints}">Team</a></li>
-					<li><a th:href="@{/updateLineup}">Selection</a></li>
-<!-- 					<li><a href="#">User</a></li> -->
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Admin</a></li>
-<!-- 					<li><a th:href="@{/signUp}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
-					<li th:if="${#authorization.expression('!isAuthenticated()')}"><a th:href="@{/login}">Sign in</a></li>
-					<li th:if="${#authorization.expression('isAuthenticated()')}"><form th:action="@{/logout}" method="post"><input type="submit" value="Log out" /></form></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+		</nav>
+	</div>
 </body>
 </html>

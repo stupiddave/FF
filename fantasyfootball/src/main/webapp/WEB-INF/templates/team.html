@@ -3,12 +3,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-<title>My Team</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+<link rel='stylesheet' th:href="@{webjars/bootstrap/3.3.5/css/bootstrap.min.css}" />
+<title>Standings</title>
 </head>
 <body>
-<div th:include="navbar">navbar here</div>
+	<div th:include="navbar :: navbar">navbar here</div>
 	<section>
 		<div class="jumbotron">
 			<div class="container">
@@ -35,6 +35,7 @@
 					<th>Second Name</th>
 					<th>Position</th>
 					<th>Gameweek Points</th>
+					<th>Gameweek Detail</th>
 				</tr>
 				<tr th:each="player : ${team.squad}">
 					<td th:text="${player.id}">ID</td>
@@ -42,6 +43,13 @@
 					<td th:text="${player.lastName}">last name</td>
 					<td th:text="${player.position}">position</td>
 					<td th:text="${player.gameweekPoints}">points</td>
+					<td><table class="table">
+							<tr th:each="gameweekEvent : ${player.gameweekEvents}">
+								<td th:text="${gameweekEvent.description}">description</td>
+								<td th:text="${gameweekEvent.occurrences}">occurrences</td>
+								<td th:text="${gameweekEvent.points}">Points</td>
+							</tr>
+						</table></td>
 				</tr>
 			</table>
 		</div>

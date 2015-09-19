@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,6 +26,7 @@ import com.dave.fantasyfootball.service.PlayerService;
 public class TeamRepositoryImpl implements TeamRepository {
 
 	private static final String NO_TEAM_MSG = "No team available for id ";
+	private static final Logger log = Logger.getLogger(TeamRepository.class);
 
 	@Autowired
 	public TeamRepositoryImpl(NamedParameterJdbcTemplate jdbcTemplate, PlayerService playerService) {
@@ -36,9 +39,8 @@ public class TeamRepositoryImpl implements TeamRepository {
 	List<Team> teams = new ArrayList<Team>();
 
 	RowMapper<Team> teamRowMapper = new RowMapper<Team>() {
-		Team team = new Team();
-
 		public Team mapRow(ResultSet rs, int rownum) throws SQLException {
+			Team team = new Team();
 			team.setId(rs.getInt("team_id"));
 			team.setName(rs.getString("team_name"));
 			team.setTotalPoints(rs.getInt("team_total_points"));
@@ -64,33 +66,32 @@ public class TeamRepositoryImpl implements TeamRepository {
 			selection.setSelectionGameweek(rs.getInt("selection_gameweek"));
 			selection.setCaptainId(rs.getInt("captain_id"));
 			selection.setViceCaptainId(rs.getInt("vice_captain_id"));
-			
-			
+
 			List<Player> lineup = new ArrayList<Player>();
 			try {
-			lineup.add(playerService.getPlayerById(rs.getInt("player1_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player2_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player3_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player4_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player5_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player6_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player7_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player8_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player9_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player10_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player11_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player12_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player13_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player14_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player15_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player16_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player17_id")));
-			lineup.add(playerService.getPlayerById(rs.getInt("player18_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player1_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player2_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player3_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player4_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player5_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player6_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player7_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player8_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player9_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player10_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player11_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player12_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player13_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player14_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player15_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player16_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player17_id")));
+				lineup.add(playerService.getPlayerById(rs.getInt("player18_id")));
 			} catch (JSONException | IOException e) {
 				e.printStackTrace();
 			}
 			selection.setLineup(lineup);
-			
+
 			return selection;
 		}
 
@@ -99,13 +100,11 @@ public class TeamRepositoryImpl implements TeamRepository {
 	@Override
 	public Team getTeamInfoById(int id) {
 		Team team;
-		String teamSql = "SELECT team_id" + ", team_name"
-				+ ", team_total_points" + " FROM team_t"
+		String teamSql = "SELECT team_id" + ", team_name" + ", team_total_points" + " FROM team_t"
 				+ " WHERE team_id = :id";
 		try {
-		team = jdbcTemplate.queryForObject(teamSql,
-				new MapSqlParameterSource("id", id), teamRowMapper);
-		} catch(EmptyResultDataAccessException e) {
+			team = jdbcTemplate.queryForObject(teamSql, new MapSqlParameterSource("id", id), teamRowMapper);
+		} catch (EmptyResultDataAccessException e) {
 			System.out.println(NO_TEAM_MSG + id);
 			team = null;
 		}
@@ -114,11 +113,9 @@ public class TeamRepositoryImpl implements TeamRepository {
 	}
 
 	public List<Integer> getPlayerIdsByTeam(int teamId) {
-		String teamPlayersSql = "SELECT player_id " + "FROM player_t "
-				+ "WHERE team_id = :id";
+		String teamPlayersSql = "SELECT player_id " + "FROM player_t " + "WHERE team_id = :id";
 
-		return jdbcTemplate.queryForList(teamPlayersSql, new MapSqlParameterSource(
-				"id", teamId), Integer.class);
+		return jdbcTemplate.queryForList(teamPlayersSql, new MapSqlParameterSource("id", teamId), Integer.class);
 	}
 
 	@Override
@@ -134,25 +131,22 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 	@Override
 	public TeamForm getTeamFormById(int id) {
-		String teamSql = "SELECT team_id" + ", team_name"
-				+ ", team_total_points" + " FROM team_t"
+		String teamSql = "SELECT team_id" + ", team_name" + ", team_total_points" + " FROM team_t"
 				+ " WHERE team_id = :id";
 
 		TeamForm teamForm = jdbcTemplate.queryForObject(teamSql, new MapSqlParameterSource("id", id),
 				teamFormRowMapper);
-		String teamPlayersSql = "SELECT player_id " + "FROM player_t "
-				+ "WHERE team_id = :id";
+		String teamPlayersSql = "SELECT player_id " + "FROM player_t " + "WHERE team_id = :id";
 
-		List<String> playerIds = jdbcTemplate.queryForList(teamPlayersSql,
-				new MapSqlParameterSource("id", id), String.class);
+		List<String> playerIds = jdbcTemplate.queryForList(teamPlayersSql, new MapSqlParameterSource("id", id),
+				String.class);
 		teamForm.setPlayerIds(playerIds);
 		return teamForm;
 	}
 
 	@Override
 	public void updateTeam(Team team) {
-		String sql = "UPDATE team_t " + "SET team_name = :teamName, "
-				+ "team_total_points = :teamTotalPoints, "
+		String sql = "UPDATE team_t " + "SET team_name = :teamName, " + "team_total_points = :teamTotalPoints, "
 				+ "updt_dtm = CURRENT_TIMESTAMP " + "WHERE team_id = :id ";
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
@@ -164,111 +158,79 @@ public class TeamRepositoryImpl implements TeamRepository {
 	}
 
 	@Override
-	public Selection getTeamSelection(int teamId) {
+	public Selection getTeamSelection(int teamId, int gameweek) {
 		Selection selection = null;
-		String sql = "SELECT selection_gameweek"
-				+ ", player1_id "
-				+ ", player2_id"
-				+ ", player3_id"
-				+ ", player4_id"
-				+ ", player5_id"
-				+ ", player6_id"
-				+ ", player7_id"
-				+ ", player8_id"
-				+ ", player9_id"
-				+ ", player10_id"
-				+ ", player11_id"
-				+ ", player12_id"
-				+ ", player13_id"
-				+ ", player14_id"
-				+ ", player15_id"
-				+ ", player16_id"
-				+ ", player17_id"
-				+ ", player18_id"
-				+ ", captain_id"
-				+ ", vice_captain_id "
-				+ "FROM selection_t "
-				+ "WHERE team_id = :teamId "
+		String sql = "SELECT selection_gameweek" + ", player1_id " + ", player2_id" + ", player3_id" + ", player4_id"
+				+ ", player5_id" + ", player6_id" + ", player7_id" + ", player8_id" + ", player9_id" + ", player10_id"
+				+ ", player11_id" + ", player12_id" + ", player13_id" + ", player14_id" + ", player15_id"
+				+ ", player16_id" + ", player17_id" + ", player18_id" + ", captain_id" + ", vice_captain_id "
+				+ "FROM selection_t " + "WHERE team_id = :teamId AND selection_gameweek <= :gameweek "
 				+ "ORDER BY updt_dtm DESC LIMIT 1";
-		
-		MapSqlParameterSource params = new MapSqlParameterSource("teamId", teamId);
-		
+
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("teamId", teamId);
+		params.addValue("gameweek", gameweek);
+
 		try {
 			selection = jdbcTemplate.queryForObject(sql, params, selectionRowMapper);
-		} catch(EmptyResultDataAccessException e) {
-			System.out.println(NO_TEAM_MSG + teamId);
+		} catch (EmptyResultDataAccessException e) {
+			log.info(NO_TEAM_MSG + teamId);
 		}
 		return selection;
 	}
 
 	@Override
 	public void addSelection(Selection selection, int selectionGameweek) {
-		String sql = "INSERT INTO selection_t (team_id "
-				+ ", selection_gameweek"
-				+ ", player1_id"
-				+ ", player2_id"
-				+ ", player3_id"
-				+ ", player4_id"
-				+ ", player5_id"
-				+ ", player6_id"
-				+ ", player7_id"
-				+ ", player8_id"
-				+ ", player9_id"
-				+ ", player10_id"
-				+ ", player11_id"
-				+ ", player12_id"
-				+ ", player13_id"
-				+ ", player14_id"
-				+ ", player15_id"
-				+ ", player16_id"
-				+ ", player17_id"
-				+ ", player18_id"
-				+ ", captain_id"
-				+ ", vice_captain_id"
-				+ ", updt_dtm ) VALUES"
-				+ " (:team_id"
-				+ ", :selection_gameweek"
-				+ ", :player1_id"
-				+ ", :player2_id"
-				+ ", :player3_id"
-				+ ", :player4_id"
-				+ ", :player5_id"
-				+ ", :player6_id"
-				+ ", :player7_id"
-				+ ", :player8_id"
-				+ ", :player9_id"
-				+ ", :player10_id"
-				+ ", :player11_id"
-				+ ", :player12_id"
-				+ ", :player13_id"
-				+ ", :player14_id"
-				+ ", :player15_id"
-				+ ", :player16_id"
-				+ ", :player17_id"
-				+ ", :player18_id"
-				+ ", :captain_id"
-				+ ", :vice_captain_id"
+		String sql = "INSERT INTO selection_t (team_id " + ", selection_gameweek" + ", player1_id" + ", player2_id"
+				+ ", player3_id" + ", player4_id" + ", player5_id" + ", player6_id" + ", player7_id" + ", player8_id"
+				+ ", player9_id" + ", player10_id" + ", player11_id" + ", player12_id" + ", player13_id"
+				+ ", player14_id" + ", player15_id" + ", player16_id" + ", player17_id" + ", player18_id"
+				+ ", captain_id" + ", vice_captain_id" + ", updt_dtm ) VALUES" + " (:team_id" + ", :selection_gameweek"
+				+ ", :player1_id" + ", :player2_id" + ", :player3_id" + ", :player4_id" + ", :player5_id"
+				+ ", :player6_id" + ", :player7_id" + ", :player8_id" + ", :player9_id" + ", :player10_id"
+				+ ", :player11_id" + ", :player12_id" + ", :player13_id" + ", :player14_id" + ", :player15_id"
+				+ ", :player16_id" + ", :player17_id" + ", :player18_id" + ", :captain_id" + ", :vice_captain_id"
 				+ ", CURRENT_TIMESTAMP) ";
 
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("team_id", selection.getTeamId());
 		for (int i = 1; i < 19; i++) {
-			params.addValue("player" + i + "_id", selection.getLineup().get(i-1).getId());
+			params.addValue("player" + i + "_id", selection	.getLineup()
+															.get(i - 1)
+															.getId());
 		}
 		params.addValue("captain_id", selection.getCaptainId());
 		params.addValue("vice_captain_id", selection.getViceCaptainId());
 		params.addValue("selection_gameweek", selectionGameweek);
-		
+
 		int rowNum = jdbcTemplate.update(sql, params);
 		System.out.println("Number of rows affected: " + rowNum);
 	}
 
 	@Override
 	public void commitTeamScore(int teamId, int teamScore) {
-		String sql = "UPDATE team_t SET team_total_points = team_total_points + :teamScore WHERE team_id = :teamId";
+		String sql = "UPDATE team_t SET team_total_points = team_total_points + :teamScore, team_gameweek_points = :teamScore WHERE team_id = :teamId";
 		MapSqlParameterSource params = new MapSqlParameterSource();
 		params.addValue("teamId", teamId);
 		params.addValue("teamScore", teamScore);
 		jdbcTemplate.update(sql, params);
+	}
+
+	@Override
+	public List<Team> getTeamStandings() {
+		List<Team> teams = new ArrayList<Team>();
+		String sql = "SELECT team.team_name AS name, team.team_gameweek_points AS gameweek_points, "
+				+ "team.team_total_points AS total_points, CONCAT(user.first_name, ' ', user.last_name) AS manager "
+				+ "FROM team_t team INNER JOIN user_t user ON team.team_id = user.team_id ORDER BY team.team_total_points DESC";
+		List<Map<String, Object>> rsMap = jdbcTemplate.queryForList(sql, new MapSqlParameterSource());
+		for (Map<String, Object> row : rsMap) {
+			Team team = new Team();
+			team.setName((String) row.get("name"));
+			team.setManager((String) row.get("manager"));
+			team.setGameweekPoints((Integer) row.get("gameweek_points"));
+			team.setTotalPoints((Integer) row.get("total_points"));
+			teams.add(team);
+		}
+		return teams;
 	}
 }

@@ -21,7 +21,8 @@ public class UserDetailsBuilderImpl implements UserDetailsBuilder {
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(new SimpleGrantedAuthority(user.getUserType()));
 
-		org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(username, password, authorities);
+		org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
+				username, password, authorities);
 		return userDetails;
 	}
 

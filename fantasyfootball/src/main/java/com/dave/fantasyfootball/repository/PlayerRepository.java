@@ -10,16 +10,27 @@ import com.dave.fantasyfootball.utils.Position;
 
 public interface PlayerRepository {
 
-	List<Player> getAllPlayers();
 	List<Player> getPlayersByClub(String club);
+
 	List<Player> getPlayersByPosition(Position position);
+
 	void addPlayer(int string, int teamId);
-	List<Integer> getPlayersByTeam(int teamId);
+
 	void removePlayersFromTeam(int teamId);
+
 	Player getPlayerById(int id);
+
 	void deleteAllPlayerInfo();
+
 	void addPlayerInfo(Player player);
-	List<Player> getAllPlayersInfo();
+
+	List<Player> getAllPlayers();
+
 	List<Player> getPlayersByIdList(List<Integer> ids);
+
 	Player getPlayerDetail(Player player) throws JSONException, IOException;
+
+	List<Player> getAllPlayersDetail();
+
+	List<Player> getPlayersByTeamId(int teamId);
 }

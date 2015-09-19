@@ -9,11 +9,20 @@ import com.dave.fantasyfootball.form.TeamForm;
 public interface TeamRepository {
 
 	Team getTeamInfoById(int id);
+
 	void addTeam(Team team);
+
 	TeamForm getTeamFormById(int teamId);
+
 	void updateTeam(Team team);
-	Selection getTeamSelection(int teamId);
+
+	Selection getTeamSelection(int teamId, int gameweek);
+
 	List<Integer> getPlayerIdsByTeam(int teamId);
+
 	void addSelection(Selection selection, int selectionGameweek);
+
 	void commitTeamScore(int teamId, int teamScore);
+
+	List<Team> getTeamStandings();
 }

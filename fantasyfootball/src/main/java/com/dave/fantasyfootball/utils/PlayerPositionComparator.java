@@ -12,8 +12,7 @@ public class PlayerPositionComparator implements Comparator<Player> {
 
 	@Override
 	public int compare(Player player1, Player player2) {
-		return POSITION_MAP.get(player1.getPosition())
-				- POSITION_MAP.get(player2.getPosition());
+		return POSITION_MAP.get(player1.getPosition()) - POSITION_MAP.get(player2.getPosition());
 	}
 
 	private static Map<String, Integer> createMap() {

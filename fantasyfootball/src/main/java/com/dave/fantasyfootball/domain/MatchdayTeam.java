@@ -80,8 +80,7 @@ public class MatchdayTeam {
 	}
 
 	Player swapOutfieldPlayerIfPossible(Player player) {
-		for (Iterator<Player> subsIterator = subs.iterator(); subsIterator
-				.hasNext();) {
+		for (Iterator<Player> subsIterator = subs.iterator(); subsIterator.hasNext();) {
 			Player subPlayer = subsIterator.next();
 			int currentPosition = starters.indexOf(player);
 			if (subPlayer.getMinutesPlayed() > 0) {
@@ -99,11 +98,9 @@ public class MatchdayTeam {
 	}
 
 	Player swapGoalkeeperIfPossible(Player player) {
-		for (Iterator<Player> subsIterator = subs.iterator(); subsIterator
-				.hasNext();) {
+		for (Iterator<Player> subsIterator = subs.iterator(); subsIterator.hasNext();) {
 			Player subPlayer = subsIterator.next();
-			if ("Goalkeeper".equals(subPlayer.getPosition())
-					&& subPlayer.getMinutesPlayed() > 0) {
+			if ("Goalkeeper".equals(subPlayer.getPosition()) && subPlayer.getMinutesPlayed() > 0) {
 				starters.set(starters.indexOf(player), subPlayer);
 				subsIterator.remove();
 				replacedStarters.add(player);
@@ -130,10 +127,8 @@ public class MatchdayTeam {
 				forwardCount++;
 			}
 		}
-		if (goalkeeperCount == 1 && defenderCount > 2 && defenderCount < 6
-				&& midfielderCount > 2 && midfielderCount < 6
-				&& forwardCount > 0 && forwardCount < 4
-				&& defenderCount + midfielderCount + forwardCount == 10) {
+		if (goalkeeperCount == 1 && defenderCount > 2 && defenderCount < 6 && midfielderCount > 2 && midfielderCount < 6
+				&& forwardCount > 0 && forwardCount < 4 && defenderCount + midfielderCount + forwardCount == 10) {
 			return true;
 		} else {
 			return false;

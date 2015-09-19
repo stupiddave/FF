@@ -10,13 +10,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
@@ -30,12 +30,18 @@ import com.mysql.jdbc.Driver;
 @ComponentScan(basePackages = { "com.dave.fantasyfootball" })
 @Configuration
 @PropertySource("classpath:/properties/application.properties")
-//@EnableAspectJAutoProxy
+// @EnableAspectJAutoProxy
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
+	}
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/webjars/**")
+				.addResourceLocations("/webjars/");
 	}
 
 	@Bean
@@ -74,15 +80,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
-	@Value("${db.connection.url}") 
+	@Value("${db.connection.url}")
 	String url;
-	
-	@Value("${db.username}") 
+
+	@Value("${db.username}")
 	String username;
-	
-	@Value("${db.password}") 
+
+	@Value("${db.password}")
 	String password;
-	
+
 	@Bean
 	NamedParameterJdbcTemplate getJdbcTemplate() throws SQLException {
 		NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
@@ -101,5 +107,5 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		System.out.println(dataSource.getUrl());
 		return dataSource;
 	}
-	
+
 }

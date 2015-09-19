@@ -3,11 +3,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+<link rel='stylesheet' th:href="@{webjars/bootstrap/3.3.5/css/bootstrap.min.css}" />
 <title>Admin</title>
 </head>
 <body>
-	<div th:include="navbar">navbar here</div>
+	<div th:include="navbar :: navbar">navbar here</div>
 	<section>
 		<div class="jumbotron">
 			<div class="container">
@@ -23,19 +24,39 @@
 			<div>
 				<a th:href="@{/admin/addUser}">Add User</a>
 			</div>
-<!-- 			<div> -->
-<!-- 				<a th:href="@{/admin/updateTeam/1}">Update Team 1</a> -->
-<!-- 			</div> -->
-<!-- 			<div> -->
-<!-- 				<a th:href="@{/submitLineup}">Submit Lineup</a> -->
-<!-- 			</div> -->
+			<div>
+				<a th:href="@{/admin/checkWeeklyScores}">Check Weekly Scores</a>
+			</div>
+			<!-- 			<div> -->
+			<!-- 				<a th:href="@{/admin/updateTeam/1}">Update Team 1</a> -->
+			<!-- 			</div> -->
+			<!-- 			<div> -->
+			<!-- 				<a th:href="@{/submitLineup}">Submit Lineup</a> -->
+			<!-- 			</div> -->
 			<div>
 				<a th:href="@{/admin/reloadPlayers}">Reload Player Info</a>
 			</div>
 			<div>
-				<p th:text="'Current gameweek: ' + ${currentGameweek}"></p>
-				<a th:href="@{/admin/incrementGameweek}">Increment Gameweek</a> <a th:href="@{/admin/decrementGameweek}">Decrement
-					Gameweek</a>
+				<a th:href="@{/admin/updateFixtures}">Update Fixtures</a>
+			</div>
+			<div>
+				<p th:text="'Selection gameweek: ' + ${currentGameweek}">Selection gameweek</p>
+				<p th:text="'Last gameweek in the system: ' + ${lastGameweek.gameweek}">Last gameweek</p>
+				<form class="form-inline" th:action="@{/admin/addGameweek}" th:object="${newGameweek}" method="post">
+					<div class="form-group">
+						<label for="gameweek">Gameweek</label> <input id="gameweek" type="number" th:field="*{gameweek}"
+							class="form:input" />
+					</div>
+					<div class="form-group">
+						<label for="start">Start</label> <input id="start" type="datetime" th:field="*{start}" class="form:input" />
+					</div>
+					<div class="form-group">
+						<label for="end">End</label><input id="end" type="datetime" th:field="*{end}" class="form:input" />
+					</div>
+					<button type="submit" class="btn btn-default">Add Gameweek</button>
+				</form>
+				<!-- 				<a th:href="@{/admin/incrementGameweek}">Increment Gameweek</a> <a th:href="@{/admin/decrementGameweek}">Decrement -->
+				<!-- 					Gameweek</a> -->
 			</div>
 			<div>
 				<form th:action="@{/logout}" method="post">

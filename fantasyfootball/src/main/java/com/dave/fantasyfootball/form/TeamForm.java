@@ -205,11 +205,9 @@ public class TeamForm {
 	}
 
 	public List<Integer> getPlayerIdList() {
-		List<Integer> playerIds = Arrays.asList(playerId1, playerId2,
-				playerId3, playerId4, playerId5, playerId6, playerId7,
-				playerId8, playerId9, playerId10, playerId11, playerId12,
-				playerId13, playerId14, playerId15, playerId16, playerId17,
-				playerId18);
+		List<Integer> playerIds = Arrays.asList(playerId1, playerId2, playerId3, playerId4, playerId5, playerId6,
+				playerId7, playerId8, playerId9, playerId10, playerId11, playerId12, playerId13, playerId14, playerId15,
+				playerId16, playerId17, playerId18);
 		return playerIds;
 	}
 }

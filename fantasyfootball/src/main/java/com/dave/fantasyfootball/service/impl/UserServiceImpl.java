@@ -1,6 +1,8 @@
 package com.dave.fantasyfootball.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dave.fantasyfootball.domain.User;
@@ -8,12 +10,9 @@ import com.dave.fantasyfootball.repository.UserRepository;
 import com.dave.fantasyfootball.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserDetailsService, UserService {
 
 	private UserRepository userRepository;
-	
-	@Autowired
-	User user;
 
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository) {
@@ -26,20 +25,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUserByUsername(String username) {
+	public User loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.getUserByUsername(username);
 		return user;
 	}
-
-	@Override
-	public void buildSessionUser(String username) {
-		User currentUser = getUserByUsername(username);
-		user.setUsername(username);
-		user.setFirstName(currentUser.getFirstName());
-		user.setLastName(currentUser.getLastName());
-		user.setEmail(currentUser.getEmail());
-		user.setTeamId(currentUser.getTeamId());
-		user.setUserType(currentUser.getUserType());
-	}
-
 }

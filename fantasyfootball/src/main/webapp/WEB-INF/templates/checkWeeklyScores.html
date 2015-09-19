@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+<link rel='stylesheet' th:href="@{webjars/bootstrap/3.3.5/css/bootstrap.min.css}" />
+<title>Check Weekly Scores</title>
+</head>
+<body>
+	<div th:include="navbar :: navbar">navbar here</div>
+	<div class="container">
+			<div class="jumbotron">
+				<h1>Confirm Scores</h1>
+				<h5>
+					End of gameweek <span th:text="${gameweek}"></span>
+				</h5>
+			</div>
+			<a th:href="@{/updateLineup}">Update Lineup</a> <a th:href="@{/}">Home</a>
+			<table class="table table-striped">
+				<tr>
+					<th>Team Name</th>
+					<th>This Gameweek Points</th>
+					<th>Proposed Total Points</th>
+				</tr>
+				<tr th:each="team : ${teams}">
+					<td th:text="${team.name}">Team</td>
+					<td th:text="${team.gameweekPoints}">Gameweek Points</td>
+					<td th:text="${team.totalPoints}">Total Points</td>
+				</tr>
+			</table>
+			<a th:href="@{/admin/confirmWeeklyScores}">Confirm Weekly Scores</a>
+	</div>
+</body>
+</html>
