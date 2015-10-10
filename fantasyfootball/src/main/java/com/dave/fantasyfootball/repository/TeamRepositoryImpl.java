@@ -21,6 +21,7 @@ import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.service.PlayerService;
+import com.dave.fantasyfootball.utils.PlayerPositionComparator;
 
 @Repository
 public class TeamRepositoryImpl implements TeamRepository {
@@ -69,24 +70,13 @@ public class TeamRepositoryImpl implements TeamRepository {
 
 			List<Player> lineup = new ArrayList<Player>();
 			try {
-				lineup.add(playerService.getPlayerById(rs.getInt("player1_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player2_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player3_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player4_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player5_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player6_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player7_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player8_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player9_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player10_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player11_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player12_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player13_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player14_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player15_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player16_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player17_id")));
-				lineup.add(playerService.getPlayerById(rs.getInt("player18_id")));
+				List<Integer> playerIds = new ArrayList<Integer>();
+				for (Integer i = 1; i <= 18; i++) {
+					playerIds.add(rs.getInt("player" + i + "_id"));
+				}
+				List<Player> players = playerService.getSquadPlayersByPlayerIdList(playerIds);
+//				players.sort(new PlayerPositionComparator());
+				lineup.addAll(players);
 			} catch (JSONException | IOException e) {
 				e.printStackTrace();
 			}

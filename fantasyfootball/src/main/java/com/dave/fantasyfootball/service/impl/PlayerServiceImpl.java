@@ -65,10 +65,10 @@ public class PlayerServiceImpl implements PlayerService {
 
 	public List<Player> getSquadPlayersByPlayerIdList(List<Integer> playerIds)
 			throws MalformedURLException, JSONException, IOException {
+		
 		List<Player> squad = new ArrayList<Player>();
-		for (int id : playerIds) {
-			Player player = getPlayerById(id);
-			squad.add(player);
+		for(Integer playerId : playerIds) {
+			squad.add(playerRepository.getPlayerById(playerId));
 		}
 		return squad;
 	}

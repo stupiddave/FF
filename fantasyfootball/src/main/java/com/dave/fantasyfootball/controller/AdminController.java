@@ -27,10 +27,10 @@ import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
-import com.dave.fantasyfootball.service.FixtureService;
 import com.dave.fantasyfootball.service.MatchdayTeamService;
 import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.service.PropertiesService;
+import com.dave.fantasyfootball.service.ReferenceService;
 import com.dave.fantasyfootball.service.TeamService;
 import com.dave.fantasyfootball.service.UserService;
 import com.dave.fantasyfootball.utils.PlayerPositionComparator;
@@ -45,11 +45,11 @@ public class AdminController {
 	private PlayerService playerService;
 	private TeamService teamService;
 	private MatchdayTeamService matchdayTeamService;
-	private FixtureService fixtureService;
+	private ReferenceService fixtureService;
 
 	@Autowired
 	public AdminController(PropertiesService propertiesService, UserService userService, PlayerService playerService,
-			TeamService teamService, MatchdayTeamService matchdayTeamService, FixtureService fixtureService) {
+			TeamService teamService, MatchdayTeamService matchdayTeamService, ReferenceService fixtureService) {
 		this.propertiesService = propertiesService;
 		this.userService = userService;
 		this.playerService = playerService;
@@ -176,6 +176,12 @@ public class AdminController {
 	@RequestMapping(value = "/updateFixtures", method = RequestMethod.GET)
 	public String updateFixtures() throws IOException, ParseException {
 		fixtureService.updateAllFixtures();
+		return "redirect:/admin";
+	}
+	
+	@RequestMapping(value = "/updateEplTeams", method = RequestMethod.GET)
+	public String updateEplTeams() throws IOException, ParseException {
+		fixtureService.updateAllEplTeams();
 		return "redirect:/admin";
 	}
 }

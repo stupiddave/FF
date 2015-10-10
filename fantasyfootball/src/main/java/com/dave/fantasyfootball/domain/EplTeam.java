@@ -11,8 +11,9 @@ public class EplTeam implements Serializable{
 	private String name;
 	private URL badgeUrl;
 
-	public EplTeam(String name) {
+	public EplTeam(String name, URL badgeUrl) {
 		this.name = name;
+		this.badgeUrl = badgeUrl;
 	}
 
 	public URL getBadgeUrl() {

@@ -26,8 +26,8 @@ import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.form.validator.SelectionFormValidator;
-import com.dave.fantasyfootball.service.FixtureService;
 import com.dave.fantasyfootball.service.PropertiesService;
+import com.dave.fantasyfootball.service.ReferenceService;
 import com.dave.fantasyfootball.service.SelectionFormService;
 import com.dave.fantasyfootball.service.TeamService;
 import com.dave.fantasyfootball.utils.PlayerPositionComparator;
@@ -39,14 +39,14 @@ public class TeamController {
 	private SelectionFormService selectionFormService;
 	private SelectionFormValidator selectionFormValidator;
 	private PropertiesService propertiesService;
-	private FixtureService fixtureService;
+	private ReferenceService fixtureService;
 
 	Logger log = Logger.getLogger(TeamController.class);
 
 	@Autowired
 	public TeamController(TeamService teamService, SelectionFormService selectionFormService,
 			SelectionFormValidator selectionFormValidator, PropertiesService propertiesService,
-			FixtureService fixtureService) {
+			ReferenceService fixtureService) {
 		this.teamService = teamService;
 		this.selectionFormService = selectionFormService;
 		this.selectionFormValidator = selectionFormValidator;
@@ -84,10 +84,10 @@ public class TeamController {
 		log.info("Current user is: " + user.getFirstName());
 		int teamId = user.getTeamId();
 		Team team = teamService.getTeamById(teamId);
+		Collections.sort(team.getSquad(), new PlayerPositionComparator());
 		int selectionGameweek = propertiesService.getSelectionGameweek();
 		team.setSelection(teamService.getTeamSelection(teamId, selectionGameweek));
 		SelectionForm selectionForm = new SelectionForm(team, selectionFormService);
-		Collections.sort(team.getSquad(), new PlayerPositionComparator());
 		List<Fixture> fixtures = fixtureService.getFixturesByGameweek(selectionGameweek);
 
 		model.addAttribute("currentGameweek", selectionGameweek);

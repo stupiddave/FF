@@ -5,6 +5,7 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -101,7 +102,7 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	}
 
 	@Override
-	@Cacheable("playerCache")
+//	@Cacheable("playerCache")
 	public Player getPlayerById(int id) {
 
 		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t WHERE id = :id";
@@ -125,10 +126,10 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	@Override
 	public List<Player> getPlayersByIdList(List<Integer> ids) {
 		List<Player> players = new ArrayList<Player>();
-		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t WHERE id IN (:ids)";
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT id, first_name, second_name, web_name, position, club FROM player_info_t WHERE id IN (:ids) ");
 		MapSqlParameterSource params = new MapSqlParameterSource();
-		params.addValue("ids", ids);
-		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, params);
+		List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql.toString(), Collections.singletonMap("ids", ids));
 		for (Map<String, Object> row : rows) {
 			Player player = new Player();
 			player.setId((Integer) row.get("id"));
