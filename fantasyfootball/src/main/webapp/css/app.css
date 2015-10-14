@@ -1,0 +1,5 @@
+@CHARSET "ISO-8859-1";
+.form-horizontal .form-group {
+    margin-left: 15px;
+    float: left;
+}

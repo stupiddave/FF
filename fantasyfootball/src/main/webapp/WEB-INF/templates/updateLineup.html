@@ -12,7 +12,10 @@
 		<div class="row">
 			<div class="col-xs-12 col-sm-6">
 				<form class="form-horizontal" role="form" th:action="@{/updateLineup}" th:object="${selection}" method="post">
-					<div th:if="${#fields.hasAnyErrors()}">
+					<div th:if="${#fields.hasAnyErrors()}" class="alert alert-warning alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 						<p th:each="err : ${#fields.allErrors()}" th:text="${err}">...</p>
 					</div>
 					<div>
