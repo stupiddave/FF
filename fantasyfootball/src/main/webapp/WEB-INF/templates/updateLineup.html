@@ -25,7 +25,7 @@
 					<div th:each="player, playerStat : ${team.squad}">
 						<div class="row">
 							<div class="form-group">
-								<div class="control-label">
+								<div class="starterPlayerLabels control-label">
 									<label th:for="'starters' + ${playerStat.index + 1}"
 										th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Player Name</label> <input
 										type="checkbox" th:field="*{starters}" th:value="${player.id}" />

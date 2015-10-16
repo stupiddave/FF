@@ -21,7 +21,6 @@ import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.service.PlayerService;
-import com.dave.fantasyfootball.utils.PlayerPositionComparator;
 
 @Repository
 public class TeamRepositoryImpl implements TeamRepository {
@@ -75,7 +74,6 @@ public class TeamRepositoryImpl implements TeamRepository {
 					playerIds.add(rs.getInt("player" + i + "_id"));
 				}
 				List<Player> players = playerService.getSquadPlayersByPlayerIdList(playerIds);
-//				players.sort(new PlayerPositionComparator());
 				lineup.addAll(players);
 			} catch (JSONException | IOException e) {
 				e.printStackTrace();
@@ -209,12 +207,13 @@ public class TeamRepositoryImpl implements TeamRepository {
 	@Override
 	public List<Team> getTeamStandings() {
 		List<Team> teams = new ArrayList<Team>();
-		String sql = "SELECT team.team_name AS name, team.team_gameweek_points AS gameweek_points, "
+		String sql = "SELECT team.team_id AS id, team.team_name AS name, team.team_gameweek_points AS gameweek_points, "
 				+ "team.team_total_points AS total_points, CONCAT(user.first_name, ' ', user.last_name) AS manager "
 				+ "FROM team_t team INNER JOIN user_t user ON team.team_id = user.team_id ORDER BY team.team_total_points DESC";
 		List<Map<String, Object>> rsMap = jdbcTemplate.queryForList(sql, new MapSqlParameterSource());
 		for (Map<String, Object> row : rsMap) {
 			Team team = new Team();
+			team.setId((Integer) row.get("id"));
 			team.setName((String) row.get("name"));
 			team.setManager((String) row.get("manager"));
 			team.setGameweekPoints((Integer) row.get("gameweek_points"));

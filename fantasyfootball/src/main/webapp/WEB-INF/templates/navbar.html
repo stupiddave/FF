@@ -19,13 +19,13 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 						<li><a href="/home" th:href="@{/home}">Home</a></li>
-						<li><a href="/latestPoints" th:href="@{/latestPoints}">Team</a></li>
-						<li><a href="/updateLineup" th:href="@{/updateLineup}">Selection</a></li>
-						<li><a href="/standings" th:href="@{/standings}">Standings</a></li>
+						<li><a href="/latestPoints" th:href="@{/latestPoints}"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span>  Team</a></li>
+						<li><a href="/updateLineup" th:href="@{/updateLineup}"><span class="glyphicon glyphicon-sort" aria-hidden="true"></span>  Selection</a></li>
+						<li><a href="/standings" th:href="@{/standings}"><span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>  Standings</a></li>
 						<!-- 					<li><a href="#">User</a></li> -->
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}">Admin</a></li>
+						<li sec:authorize="hasRole('ADMIN')"><a th:href="@{/admin}"><span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span>  Admin</a></li>
 						<!-- 					<li><a th:href="@{/signUp}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
 						<li th:if="${#authorization.expression('!isAuthenticated()')}"><a href="/login" th:href="@{/login}">Sign
 								in</a></li>

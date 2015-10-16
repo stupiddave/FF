@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -37,6 +38,26 @@ public class MatchdayTeamController {
 	public String latestPoints(HttpServletRequest request, Model model, @AuthenticationPrincipal User user)
 			throws MalformedURLException, JSONException, IOException {
 		Team team = teamService.getTeamById(user.getTeamId());
+		MatchdayTeam matchdayTeam = matchdayTeamService.buildMatchDayTeam(team);
+		model.addAttribute("matchdayTeam", matchdayTeam);
+		model.addAttribute("team", team);
+		return "points";
+	}
+
+	@RequestMapping(value = "/latestPoints/{teamId}", method = RequestMethod.GET)
+	public String latestPointsForTeam(HttpServletRequest request, Model model, @AuthenticationPrincipal User user, @PathVariable("teamId") Integer teamId)
+			throws MalformedURLException, JSONException, IOException {
+		Team team = teamService.getTeamById(teamId);
+		MatchdayTeam matchdayTeam = matchdayTeamService.buildMatchDayTeam(team);
+		model.addAttribute("matchdayTeam", matchdayTeam);
+		model.addAttribute("team", team);
+		return "points";
+	}
+	
+	@RequestMapping(value = "/latestPointsBrief/{teamId}", method = RequestMethod.GET)
+	public String latestPointsBriefForTeam(HttpServletRequest request, Model model, @AuthenticationPrincipal User user, @PathVariable("teamId") Integer teamId)
+			throws MalformedURLException, JSONException, IOException {
+		Team team = teamService.getTeamById(teamId);
 		MatchdayTeam matchdayTeam = matchdayTeamService.buildMatchDayTeam(team);
 		model.addAttribute("matchdayTeam", matchdayTeam);
 		model.addAttribute("team", team);
