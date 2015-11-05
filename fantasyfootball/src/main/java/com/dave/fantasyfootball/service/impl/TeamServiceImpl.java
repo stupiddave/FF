@@ -123,4 +123,11 @@ public class TeamServiceImpl implements TeamService {
 		return teamRepository.getTeamStandings();
 	}
 
+	@Override
+	public Team getTeamBrief(int teamId) {
+		Team team = teamRepository.getTeamInfoById(teamId);
+		team.setSquad(teamRepository.getPlayersByTeam(teamId));
+		return team;
+	}
+
 }

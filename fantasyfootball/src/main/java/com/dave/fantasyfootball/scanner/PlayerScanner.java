@@ -12,7 +12,7 @@ public class PlayerScanner {
 
 	public static void main(String[] args) throws JSONException, IOException {
 		PlayerRepositoryImpl playerRepository = new PlayerRepositoryImpl();
-		FileWriter writer = new FileWriter("C:\\Users\\Dave\\Dropbox\\HFL\\FplRoster201516_300.csv");
+		FileWriter writer = new FileWriter("C:\\Users\\Dave\\Dropbox\\HFL\\FplRoster201516_300_23102015_2.csv");
 		writer.append("ID");
 		writer.append(',');
 		writer.append("First Name");
@@ -26,7 +26,7 @@ public class PlayerScanner {
 		writer.append("Position");
 		writer.append('\n');
 
-		for (int i = 300; i < 600; i++) {
+		for (int i = 300; i < 619; i++) {
 			JSONObject playerJson;
 			try {
 				System.out.println("Getting player " + i);

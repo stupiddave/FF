@@ -22,8 +22,8 @@
 						<input type="hidden" th:field="*{teamId}" />
 
 					</div>
-					<div th:each="player, playerStat : ${team.squad}">
-						<div class="row">
+					<div id="pickStarters" class="col-xs-12">
+						<div class="row" th:each="player, playerStat : ${team.squad}">
 							<div class="form-group">
 								<div class="starterPlayerLabels control-label">
 									<label th:for="'starters' + ${playerStat.index + 1}"
@@ -32,69 +32,70 @@
 								</div>
 							</div>
 						</div>
-
-
 					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="sub1">Sub 1:</label> <select id="sub1" th:field="*{sub1}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="sub2">Sub 2:</label> <select id="sub2" th:field="*{sub2}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="sub3">Sub 3:</label> <select id="sub3" th:field="*{sub3}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="sub4">Sub 4:</label> <select id="sub4" th:field="*{sub4}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="sub5">Sub 5:</label> <select id="sub5" th:field="*{sub5}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="sub6">Sub 6:</label> <select id="sub6" th:field="*{sub6}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="sub7">Sub 7:</label> <select id="sub7" th:field="*{sub7}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="captain">Captain:</label> <select id="captain" th:field="*{captain}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<label class="control-label col-sm-3" for="viceCaptain">Vice Captain:</label> <select id="viceCaptain"
-							th:field="*{viceCaptain}">
-							<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
-								th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
-						</select>
-					</div>
-					<div class="row">
-						<button type="submit" class="btn-lg btn-success">Submit</button>
+					<div id="pickSubs">
+						<div class="row">
+							<label class="control-label col-sm-3" for="sub1">Sub 1:</label> <select id="sub1" th:field="*{sub1}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="sub2">Sub 2:</label> <select id="sub2" th:field="*{sub2}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="sub3">Sub 3:</label> <select id="sub3" th:field="*{sub3}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="sub4">Sub 4:</label> <select id="sub4" th:field="*{sub4}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="sub5">Sub 5:</label> <select id="sub5" th:field="*{sub5}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="sub6">Sub 6:</label> <select id="sub6" th:field="*{sub6}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="sub7">Sub 7:</label> <select id="sub7" th:field="*{sub7}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="captain">Captain:</label> <select id="captain" th:field="*{captain}" class="col-xs-9">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<label class="control-label col-sm-3" for="viceCaptain">Vice Captain:</label> <select id="viceCaptain" class="col-xs-9"
+								th:field="*{viceCaptain}">
+								<option th:each="player : ${team.squad}" class="form-group" th:value="${player.id}"
+									th:text="${player.webName} + ' | ' + ${player.position} + ' | ' + ${player.club}">Option</option>
+							</select>
+						</div>
+						<div class="row">
+							<button type="submit" class="btn-lg btn-success">Submit</button>
+						</div>
 					</div>
 				</form>
 			</div>
+
 			<div class="col-xs-12 col-sm-6">
 				<table class="table table-striped table-responsive" id="fixtureTable">
 					<tr th:each="fixture : ${fixtures}">

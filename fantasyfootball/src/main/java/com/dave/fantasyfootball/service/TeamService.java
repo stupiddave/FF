@@ -29,4 +29,6 @@ public interface TeamService {
 	public List<Team> getTeamStandings();
 
 	Selection getTeamSelection(int teamId, int gameweek);
+
+	public Team getTeamBrief(int teamId);
 }

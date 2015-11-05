@@ -2,6 +2,7 @@ package com.dave.fantasyfootball.repository;
 
 import java.util.List;
 
+import com.dave.fantasyfootball.domain.Player;
 import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.form.TeamForm;
@@ -18,7 +19,7 @@ public interface TeamRepository {
 
 	Selection getTeamSelection(int teamId, int gameweek);
 
-	List<Integer> getPlayerIdsByTeam(int teamId);
+	List<Player> getPlayersByTeam(int teamId);
 
 	void addSelection(Selection selection, int selectionGameweek);
 

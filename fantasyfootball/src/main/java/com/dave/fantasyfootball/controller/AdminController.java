@@ -27,6 +27,7 @@ import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.form.SelectionForm;
 import com.dave.fantasyfootball.form.TeamForm;
+import com.dave.fantasyfootball.form.UpdateSquadForm;
 import com.dave.fantasyfootball.service.MatchdayTeamService;
 import com.dave.fantasyfootball.service.PlayerService;
 import com.dave.fantasyfootball.service.PropertiesService;
@@ -178,10 +179,35 @@ public class AdminController {
 		fixtureService.updateAllFixtures();
 		return "redirect:/admin";
 	}
-	
+
 	@RequestMapping(value = "/updateEplTeams", method = RequestMethod.GET)
 	public String updateEplTeams() throws IOException, ParseException {
 		fixtureService.updateAllEplTeams();
 		return "redirect:/admin";
+	}
+
+	// @RequestMapping(value = "/updateTeam/{teamId}", method =
+	// RequestMethod.GET)
+	// public String updateTeam(@PathVariable("teamId") int teamId, Model model)
+	// {
+	// TeamForm teamForm = new TeamForm();
+	// teamForm = teamService.getTeamFormById(teamId);
+	// model.addAttribute("teamForm", teamForm);
+	// return "updateTeam";
+	// }
+	//
+	// @RequestMapping(value = "/updateTeam", method = RequestMethod.POST)
+	// public String processTeamUpdate(@ModelAttribute("teamForm") TeamForm
+	// teamForm) {
+	// teamService.updateTeam(teamForm);
+	// return "redirect:/";
+	// }
+
+	@RequestMapping(value = "/updateSquad/{teamId}", method = RequestMethod.GET)
+	public String processTeamUpdate(@PathVariable("teamId") int teamId, Model model, @ModelAttribute("newSquad") UpdateSquadForm newSquad) {
+		Team team = teamService.getTeamBrief(teamId);
+		model.addAttribute(team);
+		model.addAttribute("allPlayers", playerService.getAllPlayersInfo());
+		return "updateSquad";
 	}
 }

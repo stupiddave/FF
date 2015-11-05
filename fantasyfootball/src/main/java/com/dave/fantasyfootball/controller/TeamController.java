@@ -63,21 +63,6 @@ public class TeamController {
 		return "team";
 	}
 
-	// @RequestMapping(value = "/updateTeam/{teamId}", method =
-	// RequestMethod.GET)
-	public String updateTeam(@PathVariable("teamId") int teamId, Model model) {
-		TeamForm teamForm = new TeamForm();
-		teamForm = teamService.getTeamFormById(teamId);
-		model.addAttribute("teamForm", teamForm);
-		return "updateTeam";
-	}
-
-	// @RequestMapping(value = "/updateTeam", method = RequestMethod.POST)
-	public String processTeamUpdate(@ModelAttribute("teamForm") TeamForm teamForm) {
-		teamService.updateTeam(teamForm);
-		return "redirect:/";
-	}
-
 	@RequestMapping(value = "/updateLineup", method = RequestMethod.GET)
 	public String getLineupForm(Model model, @AuthenticationPrincipal User user)
 			throws MalformedURLException, JSONException, IOException {

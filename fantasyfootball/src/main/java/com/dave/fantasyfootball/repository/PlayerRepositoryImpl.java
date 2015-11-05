@@ -16,7 +16,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,7 +28,7 @@ import com.dave.fantasyfootball.utils.Position;
 @Repository
 public class PlayerRepositoryImpl implements PlayerRepository {
 
-	private static final int TOTAL_PLAYERS = 560;
+	private static final int TOTAL_PLAYERS = 618;
 
 	public PlayerRepositoryImpl() {
 	}
@@ -208,7 +207,6 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 	}
 
 	@Override
-	@Cacheable("allPlayerCache")
 	public List<Player> getAllPlayers() {
 		List<Player> playersInfo = new ArrayList<Player>();
 		String sql = "SELECT id, first_name, second_name, web_name, position, club FROM player_info_t";
