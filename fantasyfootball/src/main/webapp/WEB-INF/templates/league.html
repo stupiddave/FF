@@ -22,7 +22,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h4 class="modal-title" id="exampleModalLabel">New message</h4>
+					<h4 class="modal-title" id="exampleModalLabel">One moment...</h4>
 				</div>
 				<div class="modal-body">
 					<div class="progress progress-striped active">
@@ -45,7 +45,7 @@
 				</tr>
 				<tr th:each="team, teamStat : ${teams}">
 					<td th:text="${teamStat.count}"></td>
-					<td><a th:text="${team.name}" th:href="@{'/latestPoints/' + ${team.id}}" data-toggle="modal"
+					<td><a th:text="${team.name}" th:href="@{'/latestPointsBrief/' + ${team.id}}" data-toggle="modal"
 						data-target="#latestPointsModal">Team</a></td>
 					<td th:text="${team.manager}">Manager</td>
 					<td th:text="${team.gameweekPoints}">Gameweek Points</td>
@@ -56,13 +56,5 @@
 			</table>
 		</div>
 	</section>
-	<!-- 	<script> -->
-	// $('#exampleModal').on('show.bs.modal', function(event) { // var button = $(event.relatedTarget) // Button that
-	triggered the modal // var recipient = button.data('team_id') // Extract info from data-* attributes // // If
-	necessary, you could initiate an AJAX request here (and then do the updating in a callback). // // Update the modal's
-	content. We'll use jQuery here, but you could use a data binding library or other methods instead. // var modal =
-	$(this) // modal.find('.modal-title').text('New message to ' + recipient) // modal.find('.modal-body
-	input').val(recipient) // })
-	<!-- 	</script> -->
 </body>
 </html>

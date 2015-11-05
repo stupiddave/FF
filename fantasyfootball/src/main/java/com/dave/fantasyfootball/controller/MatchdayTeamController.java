@@ -61,6 +61,6 @@ public class MatchdayTeamController {
 		MatchdayTeam matchdayTeam = matchdayTeamService.buildMatchDayTeam(team);
 		model.addAttribute("matchdayTeam", matchdayTeam);
 		model.addAttribute("team", team);
-		return "points";
+		return "pointsBrief";
 	}
 }
