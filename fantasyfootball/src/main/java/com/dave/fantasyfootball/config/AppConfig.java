@@ -108,16 +108,19 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		return dataSource;
 	}
 
-//	@Bean(name="teamBadgeMap")
-//	Map<String, URL> getEplTeamBadge() throws DataAccessException, SQLException, MalformedURLException {
-//		Map<String, URL> badgeMap = new HashMap<String, URL>(1);
-//		badgeMap.put("key", new URL(""));
-////		String sql = "SELECT name, badgeUrl FROM eplTeam_t";
-////		List<Map<String, Object>> list = getJdbcTemplate().queryForList(sql, new MapSqlParameterSource());
-////		for(Map<String, Object> map : list) {
-////			badgeMap.put((String) map.get("name"), new URL((String) map.get("badgeUrl")));
-////		}
-//
-//		return badgeMap;
-//	}
+	// @Bean(name="teamBadgeMap")
+	// Map<String, URL> getEplTeamBadge() throws DataAccessException,
+	// SQLException, MalformedURLException {
+	// Map<String, URL> badgeMap = new HashMap<String, URL>(1);
+	// badgeMap.put("key", new URL(""));
+	//// String sql = "SELECT name, badgeUrl FROM eplTeam_t";
+	//// List<Map<String, Object>> list = getJdbcTemplate().queryForList(sql,
+	// new MapSqlParameterSource());
+	//// for(Map<String, Object> map : list) {
+	//// badgeMap.put((String) map.get("name"), new URL((String)
+	// map.get("badgeUrl")));
+	//// }
+	//
+	// return badgeMap;
+	// }
 }

@@ -16,12 +16,10 @@ import com.dave.fantasyfootball.domain.User;
 @Controller
 public class HomeController {
 
-	@RequestMapping(value = { "/", "/home" })
+	@RequestMapping(value = { "/home" })
 	public String welcome(Model model, HttpServletRequest request, @AuthenticationPrincipal User user)
 			throws MalformedURLException, JSONException, IOException {
-		if (!model.containsAttribute("user")) {
-			model.addAttribute("user", user);
-		}
+		model.addAttribute("user", user);
 		return "home";
 	}
 

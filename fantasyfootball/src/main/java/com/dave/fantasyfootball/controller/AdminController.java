@@ -204,7 +204,8 @@ public class AdminController {
 	// }
 
 	@RequestMapping(value = "/updateSquad/{teamId}", method = RequestMethod.GET)
-	public String processTeamUpdate(@PathVariable("teamId") int teamId, Model model, @ModelAttribute("newSquad") UpdateSquadForm newSquad) {
+	public String processTeamUpdate(@PathVariable("teamId") int teamId, Model model,
+			@ModelAttribute("newSquad") UpdateSquadForm newSquad) {
 		Team team = teamService.getTeamBrief(teamId);
 		model.addAttribute(team);
 		model.addAttribute("allPlayers", playerService.getAllPlayersInfo());

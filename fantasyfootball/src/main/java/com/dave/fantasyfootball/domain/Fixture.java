@@ -27,7 +27,7 @@ public class Fixture {
 	public EplTeam getHomeTeam() {
 		return homeTeam;
 	}
-	
+
 	public void setHomeTeam(EplTeam homeTeam) {
 		this.homeTeam = homeTeam;
 	}

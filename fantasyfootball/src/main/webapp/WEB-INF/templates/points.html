@@ -4,60 +4,66 @@
 <head th:substituteby="headTag :: headTag">
 </head>
 <body>
-<div th:include="navbar :: navbar">navbar here</div>
-	<section>
+	<div th:include="navbar :: navbar">navbar here</div>
+	<div th:fragment="pointsPreamble">
 		<div class="jumbotron">
 			<div class="container">
 				<h1 th:text="${team.name}">Team Name</h1>
 			</div>
 		</div>
-	</section>
-	<section>
 		<div class="container">
-			<h3 th:text="'Team Points: ' + ${team.totalPoints}">Team Points</h3>
-			<div>
-				<a th:href="@{/updateLineup}">Update Lineup</a>
-			</div>
-			<div>
-				<a th:href="@{/}">Home</a>
-			</div>
+			<h3 th:text="'Gameweek Points: ' + ${currentPoints}">Team Points</h3>
 		</div>
-		<div class="container">
-			<table class="table table-striped" title="Team">
-				<tr>
-					<th>Player ID</th>
-					<th>First Name</th>
-					<th>Second Name</th>
-					<th>Position</th>
-					<th>Gameweek Points</th>
-				</tr>
-				<tr th:each="player : ${matchdayTeam.starters}">
-					<td th:text="${player.id}">ID</td>
-					<td th:text="${player.firstName}">first name</td>
-					<td th:text="${player.lastName}">last name</td>
-					<td th:text="${player.position}">position</td>
-					<td th:text="${player.gameweekPoints}">points</td>
-				</tr>
-				<tr><td th:text="'Unused Subs'"/><td/><td/><td/><td/>
-				</tr>
-				<tr th:each="player : ${matchdayTeam.subs}">
-					<td th:text="${player.id}">ID</td>
-					<td th:text="${player.firstName}">first name</td>
-					<td th:text="${player.lastName}">last name</td>
-					<td th:text="${player.position}">position</td>
-					<td th:text="${player.gameweekPoints}">points</td>
-				</tr>
-				<tr><td th:text="'Replaced Starters'"/><td/><td/><td/><td/>
-				</tr>
-				<tr th:each="player : ${matchdayTeam.replacedStarters}">
-					<td th:text="${player.id}">ID</td>
-					<td th:text="${player.firstName}">first name</td>
-					<td th:text="${player.lastName}">last name</td>
-					<td th:text="${player.position}">position</td>
-					<td th:text="${player.gameweekPoints}">points</td>
-				</tr>
-			</table>
-		</div>
-	</section>
+	</div>
+	<div class="container">
+		<table class="table table-striped" title="Team">
+			<tr>
+				<th>Player ID</th>
+				<th>First Name</th>
+				<th>Second Name</th>
+				<th>Position</th>
+				<th>Gameweek Points</th>
+			</tr>
+			<tr th:each="player : ${matchdayTeam.starters}">
+				<td th:text="${player.id}">ID</td>
+				<td th:text="${player.firstName}">first name</td>
+				<td><span th:text="${player.lastName}">last name</span><span th:if="${player.id} == ${matchdayTeam.captain.id}"
+					th:text="' (c)'"></span></td>
+				<td th:text="${player.position}">position</td>
+				<td>
+					<div th:if="${player.id} == ${matchdayTeam.captain.id}" th:text="${player.gameweekPoints} * 2">captain points</div>
+					<div th:if="${player.id} != ${matchdayTeam.captain.id}" th:text="${player.gameweekPoints}">non-captain points</div>
+				</td>
+			</tr>
+			<tr>
+				<th th:text="'Unused Subs'" />
+				<th />
+				<th />
+				<th />
+				<th />
+			</tr>
+			<tr th:each="player : ${matchdayTeam.subs}">
+				<td th:text="${player.id}">ID</td>
+				<td th:text="${player.firstName}">first name</td>
+				<td th:text="${player.lastName}">last name</td>
+				<td th:text="${player.position}">position</td>
+				<td th:text="${player.gameweekPoints}">points</td>
+			</tr>
+			<tr>
+				<th th:text="'Replaced Starters'" />
+				<th />
+				<th />
+				<th />
+				<th />
+			</tr>
+			<tr th:each="player : ${matchdayTeam.replacedStarters}">
+				<td th:text="${player.id}">ID</td>
+				<td th:text="${player.firstName}">first name</td>
+				<td th:text="${player.lastName}">last name</td>
+				<td th:text="${player.position}">position</td>
+				<td th:text="${player.gameweekPoints}">points</td>
+			</tr>
+		</table>
+	</div>
 </body>
 </html>

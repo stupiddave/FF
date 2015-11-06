@@ -24,7 +24,6 @@ import com.dave.fantasyfootball.domain.Selection;
 import com.dave.fantasyfootball.domain.Team;
 import com.dave.fantasyfootball.domain.User;
 import com.dave.fantasyfootball.form.SelectionForm;
-import com.dave.fantasyfootball.form.TeamForm;
 import com.dave.fantasyfootball.form.validator.SelectionFormValidator;
 import com.dave.fantasyfootball.service.PropertiesService;
 import com.dave.fantasyfootball.service.ReferenceService;
@@ -112,7 +111,7 @@ public class TeamController {
 		return "team";
 	}
 
-	@RequestMapping(value = "/standings", method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/standings" }, method = RequestMethod.GET)
 	public String getStandings(Model model) {
 		List<Team> teams = teamService.getTeamStandings();
 		model.addAttribute("teams", teams);

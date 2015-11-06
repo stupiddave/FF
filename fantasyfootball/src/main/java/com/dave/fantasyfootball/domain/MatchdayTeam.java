@@ -135,4 +135,16 @@ public class MatchdayTeam {
 		}
 	}
 
+	public int getCurrentPoints() {
+		int currentPoints = 0;
+		for (Player starter : starters) {
+			if (starter.getId() == captain.getId()) {
+				currentPoints = currentPoints + (starter.getGameweekPoints() * 2);
+			} else {
+				currentPoints = currentPoints + starter.getGameweekPoints();
+			}
+		}
+		return currentPoints;
+	}
+
 }

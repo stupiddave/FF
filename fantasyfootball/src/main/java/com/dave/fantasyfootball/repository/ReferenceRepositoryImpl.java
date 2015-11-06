@@ -73,11 +73,9 @@ public class ReferenceRepositoryImpl implements ReferenceRepository {
 	public List<Fixture> getFixturesByGameweek(int selectionGameweek) throws MalformedURLException {
 		List<Fixture> fixtures = new ArrayList<Fixture>();
 		String sql = "SELECT fixture.kickoff AS kickoff, fixture.home_team AS home_team, fixture.away_team AS away_team, "
-				+ "homeTeam.badgeUrl AS home_badge, awayTeam.badgeUrl AS away_badge "
-				+ "FROM fixture_t fixture "
+				+ "homeTeam.badgeUrl AS home_badge, awayTeam.badgeUrl AS away_badge " + "FROM fixture_t fixture "
 				+ "LEFT JOIN eplTeam_t homeTeam ON homeTeam.name = fixture.home_team "
-				+ "LEFT JOIN eplTeam_t awayTeam ON awayTeam.name = fixture.away_team "
-				+ "WHERE gameweek = :gameweek";
+				+ "LEFT JOIN eplTeam_t awayTeam ON awayTeam.name = fixture.away_team " + "WHERE gameweek = :gameweek";
 		List<Map<String, Object>> rs = jdbcTemplate.queryForList(sql,
 				new MapSqlParameterSource("gameweek", selectionGameweek));
 		for (Map<String, Object> rsRow : rs) {

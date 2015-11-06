@@ -41,26 +41,29 @@ public class MatchdayTeamController {
 		MatchdayTeam matchdayTeam = matchdayTeamService.buildMatchDayTeam(team);
 		model.addAttribute("matchdayTeam", matchdayTeam);
 		model.addAttribute("team", team);
+		model.addAttribute("currentPoints", matchdayTeam.getCurrentPoints());
 		return "points";
 	}
 
 	@RequestMapping(value = "/latestPoints/{teamId}", method = RequestMethod.GET)
-	public String latestPointsForTeam(HttpServletRequest request, Model model, @AuthenticationPrincipal User user, @PathVariable("teamId") Integer teamId)
-			throws MalformedURLException, JSONException, IOException {
+	public String latestPointsForTeam(HttpServletRequest request, Model model, @AuthenticationPrincipal User user,
+			@PathVariable("teamId") Integer teamId) throws MalformedURLException, JSONException, IOException {
 		Team team = teamService.getTeamById(teamId);
 		MatchdayTeam matchdayTeam = matchdayTeamService.buildMatchDayTeam(team);
 		model.addAttribute("matchdayTeam", matchdayTeam);
 		model.addAttribute("team", team);
+		model.addAttribute("currentPoints", matchdayTeam.getCurrentPoints());
 		return "points";
 	}
-	
+
 	@RequestMapping(value = "/latestPointsBrief/{teamId}", method = RequestMethod.GET)
-	public String latestPointsBriefForTeam(HttpServletRequest request, Model model, @AuthenticationPrincipal User user, @PathVariable("teamId") Integer teamId)
-			throws MalformedURLException, JSONException, IOException {
+	public String latestPointsBriefForTeam(HttpServletRequest request, Model model, @AuthenticationPrincipal User user,
+			@PathVariable("teamId") Integer teamId) throws MalformedURLException, JSONException, IOException {
 		Team team = teamService.getTeamById(teamId);
 		MatchdayTeam matchdayTeam = matchdayTeamService.buildMatchDayTeam(team);
 		model.addAttribute("matchdayTeam", matchdayTeam);
 		model.addAttribute("team", team);
+		model.addAttribute("currentPoints", matchdayTeam.getCurrentPoints());
 		return "pointsBrief";
 	}
 }

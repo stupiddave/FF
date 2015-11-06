@@ -13,15 +13,6 @@
 				<!-- 				<p th:text="'You manage: ' + ${team.name}"></p> -->
 			</div>
 			<div>
-				<a th:href="@{/latestPoints}">Latest Points</a>
-			</div>
-			<div>
-				<a th:href="@{/updateLineup}">Submit Lineup</a>
-			</div>
-<!-- 			<div> -->
-<!-- 				<a th:href="@{/myTeam}">My Team</a> -->
-<!-- 			</div> -->
-			<div>
 				<form th:action="@{/logout}" method="post">
 					<div class="col-lg-2">
 						<input type="submit" id="logout" class="btn btn-primary" value="Logout" />

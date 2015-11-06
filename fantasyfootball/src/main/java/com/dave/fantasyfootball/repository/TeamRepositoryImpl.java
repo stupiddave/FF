@@ -104,8 +104,9 @@ public class TeamRepositoryImpl implements TeamRepository {
 	public List<Player> getPlayersByTeam(int teamId) {
 		List<Player> players = new ArrayList<Player>();
 		String teamPlayersSql = "SELECT info.id AS playerId, info.web_name AS webName, info.club, info.position FROM player_info_t info LEFT JOIN player_t player ON info.id = player.player_id WHERE player.team_id = :id";
-		List<Map<String,Object>> rs = jdbcTemplate.queryForList(teamPlayersSql, new MapSqlParameterSource("id", teamId));
-		for(Map<String,Object> row : rs) {
+		List<Map<String, Object>> rs = jdbcTemplate.queryForList(teamPlayersSql,
+				new MapSqlParameterSource("id", teamId));
+		for (Map<String, Object> row : rs) {
 			Player player = new Player();
 			player.setId((Integer) row.get("playerId"));
 			player.setWebName((String) row.get("webName"));

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class EplTeam implements Serializable{
+public class EplTeam implements Serializable {
 
 	private static final long serialVersionUID = 8558495648090361335L;
 
@@ -31,7 +31,7 @@ public class EplTeam implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String toString() {
 		return name;
 	}

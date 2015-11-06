@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:substituteby="points :: pointsPreamble">
+	</div>
+	<table class="table table-striped" title="Team">
+		<tr>
+			<th>Name</th>
+			<th>Pos</th>
+			<th>Pts</th>
+		</tr>
+		<tr th:each="player : ${matchdayTeam.starters}">
+			<td th:text="${player.webName}">name</td>
+			<td th:text="${player.position}">position</td>
+			<td th:text="${player.gameweekPoints}">points</td>
+		</tr>
+		<tr>
+			<th th:text="'Unused Subs'" />
+			<th />
+			<th />
+		</tr>
+		<tr th:each="player : ${matchdayTeam.subs}">
+			<td th:text="${player.webName}">name</td>
+			<td th:text="${player.position}">position</td>
+			<td th:text="${player.gameweekPoints}">points</td>
+		</tr>
+		<tr>
+			<th th:text="'Replaced Starters'" />
+			<th />
+			<th />
+		</tr>
+		<tr th:each="player : ${matchdayTeam.replacedStarters}">
+			<td th:text="${player.webName}">name</td>
+			<td th:text="${player.position}">position</td>
+			<td th:text="${player.gameweekPoints}">points</td>
+		</tr>
+	</table>
+</body>
+</html>
